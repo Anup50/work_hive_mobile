@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart'; // Import provider
 import 'package:work_hive_mobile/view/signin_view.dart';
+import 'package:work_hive_mobile/view/signup_view.dart';
 import 'package:work_hive_mobile/view_model/onbord_view_model.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -58,7 +59,7 @@ class OnboardingScreen extends StatelessWidget {
                       if (viewModel.isLastPage) {
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => SignInPage()),
+                          MaterialPageRoute(builder: (context) => SignUpPage()),
                         );
                       } else {
                         pageController.jumpToPage(onboardingPages.length - 1);
@@ -96,13 +97,17 @@ class OnboardingScreen extends StatelessWidget {
                     // Navigate to the home screen when on the last page
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => SignInPage()),
+                      MaterialPageRoute(builder: (context) => SignUpPage()),
                     );
                   } else {
                     // Navigate to the next page using the ViewModel
                     viewModel.nextPage(pageController);
                   }
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                ),
                 child: Text(viewModel.isLastPage ? "Get Started" : "Next"),
               ),
               const SizedBox(height: 20),
