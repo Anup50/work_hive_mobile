@@ -42,9 +42,14 @@ class SignInPage extends StatelessWidget {
                   controller: viewModel.emailController,
                   decoration: InputDecoration(
                     labelText: 'Email',
+                    prefixIcon: const Icon(Icons.email),
                     errorText: viewModel.emailError,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                 ),
+
                 SizedBox(height: 8),
 
                 // Password TextField
@@ -54,7 +59,11 @@ class SignInPage extends StatelessWidget {
                   decoration: InputDecoration(
                     labelText: 'Password',
                     errorText: viewModel.passwordError,
+                    prefixIcon: const Icon(Icons.lock),
                     suffixIcon: Icon(Icons.visibility),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                 ),
                 SizedBox(height: 8),
@@ -73,10 +82,20 @@ class SignInPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: viewModel.logIn,
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 50),
+                    minimumSize: Size(double.infinity, 50), // Full width button
+                    backgroundColor: Colors.blue, // Blue background color
+                    foregroundColor: Colors.white, // White text color
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          8), // Boxy, with slightly rounded corners
+                    ),
                   ),
-                  child: Text('Log In'),
+                  child: Text(
+                    'Log In',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
+
                 SizedBox(height: 8),
 
                 // Or text
@@ -91,14 +110,18 @@ class SignInPage extends StatelessWidget {
                     // Add Google sign-in logic
                   },
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 50),
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          8), // Boxy, with slightly rounded corners
+                    ),
                   ),
                   icon: Image.asset(
                     'assets/icons/icons8-google-48.png',
                     height: 24, // Adjust the height as needed
                     width: 24, // Adjust the width as needed
                   ),
-                  label: Text('Continue with Google'),
+                  label: const Text('Continue with Google'),
                 ),
 
                 // Sign Up navigation
