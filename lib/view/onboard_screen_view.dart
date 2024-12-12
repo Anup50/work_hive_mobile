@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart'; // Import provider
 import 'package:work_hive_mobile/view/dashboard_view.dart';
 import 'package:work_hive_mobile/view_model/onbord_view_model.dart';
+
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
 
@@ -13,7 +14,8 @@ class OnboardingScreen extends StatelessWidget {
         Provider.of<OnboardingViewModel>(context); // Access ViewModel
 
     return Scaffold(
-      body: Column(
+        body: SafeArea(
+      child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -25,7 +27,8 @@ class OnboardingScreen extends StatelessWidget {
                   if (viewModel.isLastPage) {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => const DashboardView()),
+                      MaterialPageRoute(
+                          builder: (context) => const DashboardView()),
                     );
                   } else {
                     _pageController.jumpToPage(1); // Skip to last page directly
@@ -39,7 +42,6 @@ class OnboardingScreen extends StatelessWidget {
               ),
             ),
           ),
-
           Expanded(
             child: PageView.builder(
               controller: _pageController,
@@ -82,7 +84,7 @@ class OnboardingScreen extends StatelessWidget {
           SizedBox(height: 20),
         ],
       ),
-    );
+    ));
   }
 
   Widget buildDot(int index, int currentPage) {

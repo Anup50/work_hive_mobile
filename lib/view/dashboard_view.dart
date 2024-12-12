@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:work_hive_mobile/common/components/job_card.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -12,7 +13,7 @@ class _DashboardViewState extends State<DashboardView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 0, // Hides the AppBar for the status bar look
+        toolbarHeight: 0,
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
@@ -22,13 +23,11 @@ class _DashboardViewState extends State<DashboardView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Welcome Section
               Text(
                 "Welcome, Bob",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 16),
-              // Search Bar
               TextField(
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.search),
@@ -39,7 +38,6 @@ class _DashboardViewState extends State<DashboardView> {
                 ),
               ),
               SizedBox(height: 16),
-              // Categories
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -51,7 +49,6 @@ class _DashboardViewState extends State<DashboardView> {
                 ),
               ),
               SizedBox(height: 16),
-              // Recommended for You Section
               Text(
                 "Recommended for you",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -73,7 +70,6 @@ class _DashboardViewState extends State<DashboardView> {
                 child: Text("See all"),
               ),
               SizedBox(height: 16),
-              // Recent Postings Section
               Text(
                 "Recent Postings",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -114,7 +110,7 @@ class _DashboardViewState extends State<DashboardView> {
 class CategoryChip extends StatelessWidget {
   final String label;
 
-  CategoryChip({required this.label});
+  const CategoryChip({required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -123,74 +119,6 @@ class CategoryChip extends StatelessWidget {
       child: Chip(
         label: Text(label),
         backgroundColor: Colors.blue[100],
-      ),
-    );
-  }
-}
-
-class JobCard extends StatelessWidget {
-  final String jobTitle;
-  final String companyName;
-  final String jobLocation;
-  final String? subtitle;
-
-  JobCard({
-    required this.jobTitle,
-    required this.companyName,
-    required this.jobLocation,
-    this.subtitle,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Row(
-          children: [
-            // Placeholder for Job Image
-            Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            SizedBox(width: 16),
-            // Job Details
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    jobTitle,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    companyName,
-                    style: TextStyle(fontSize: 14, color: Colors.grey[700]),
-                  ),
-                  Text(
-                    jobLocation,
-                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                  ),
-                  if (subtitle != null) ...[
-                    SizedBox(height: 8),
-                    Text(
-                      subtitle!,
-                      style: TextStyle(fontSize: 12, color: Colors.blue),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-            // Bookmark Icon
-            Icon(Icons.bookmark_outline, color: Colors.blue),
-          ],
-        ),
       ),
     );
   }
