@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart'; // Import provider
 import 'package:work_hive_mobile/view/dashboard_view.dart';
+import 'package:work_hive_mobile/view/signin_view.dart';
 import 'package:work_hive_mobile/view_model/onbord_view_model.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -27,8 +28,7 @@ class OnboardingScreen extends StatelessWidget {
                   if (viewModel.isLastPage) {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const DashboardView()),
+                      MaterialPageRoute(builder: (context) => SignInPage()),
                     );
                   } else {
                     pageController.jumpToPage(1); // Skip to last page directly
@@ -72,7 +72,8 @@ class OnboardingScreen extends StatelessWidget {
                 // Navigate to the home screen when on the last page
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const DashboardView()),
+                  MaterialPageRoute(
+                      builder: (context) => SignInPage()),
                 );
               } else {
                 // Navigate to the next page using the ViewModel
@@ -103,7 +104,8 @@ class OnboardingScreen extends StatelessWidget {
 class OnboardingContent extends StatelessWidget {
   final String image, title, description;
 
-  const OnboardingContent({super.key, 
+  const OnboardingContent({
+    super.key,
     required this.image,
     required this.title,
     required this.description,

@@ -36,7 +36,7 @@ class _DashboardViewState extends State<DashboardView> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25),
                     borderSide: BorderSide(
-                        color: Colors.grey[300]!), // Light gray color
+                        color: Colors.grey[300]!), 
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25),
@@ -52,24 +52,22 @@ class _DashboardViewState extends State<DashboardView> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Center(
-                  // Center the Row horizontally
                   child: Row(
                     mainAxisAlignment:
-                        MainAxisAlignment.center, // Ensure the Row is centered
+                        MainAxisAlignment.center, 
                     children: [
-                      // UI/UX Chip
                       Padding(
                         padding: const EdgeInsets.only(
-                            right: 8.0), // Space between chips
+                            right: 8.0), 
                         child: Chip(
                           label: const Text("UI/UX"),
                           backgroundColor:
-                              Colors.white, // Set background color to white
+                              Colors.white, 
                           shape: StadiumBorder(
-                            // More rounded corners
+                           
                             side: BorderSide(
                                 color: Colors.grey[300]!,
-                                width: 1.5), // Same grey as focused search box
+                                width: 1.5), 
                           ),
                         ),
                       ),
@@ -77,30 +75,29 @@ class _DashboardViewState extends State<DashboardView> {
                       // Graphics Design Chip
                       Padding(
                         padding: const EdgeInsets.only(
-                            right: 8.0), // Space between chips
+                            right: 8.0), 
                         child: Chip(
                           label: const Text("Graphics Design"),
                           backgroundColor:
-                              Colors.white, // Set background color to white
+                              Colors.white, 
                           shape: StadiumBorder(
-                            // More rounded corners
+                           
                             side: BorderSide(
                                 color: Colors.grey[300]!,
-                                width: 1.5), // Same grey as focused search box
+                                width: 1.5), 
                           ),
                         ),
                       ),
 
-                      // React Chip
                       Chip(
                         label: const Text("React"),
                         backgroundColor:
-                            Colors.white, // Set background color to white
+                            Colors.white, 
                         shape: StadiumBorder(
-                          // More rounded corners
+
                           side: BorderSide(
                               color: Colors.grey[300]!,
-                              width: 1.5), // Same grey as focused search box
+                              width: 1.5), 
                         ),
                       ),
                     ],
