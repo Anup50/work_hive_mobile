@@ -6,7 +6,7 @@ class OnboardingViewModel extends ChangeNotifier {
 
   void setPage(int index) {
     _currentPage = index;
-    notifyListeners(); // Notify listeners to rebuild UI
+    notifyListeners(); 
   }
 
   void nextPage(PageController controller) {
@@ -18,5 +18,5 @@ class OnboardingViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool get isLastPage => _currentPage == 1; // Adjust according to your data length
+  bool get isLastPage => _currentPage == 1;
 }
