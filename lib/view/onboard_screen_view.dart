@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart'; // Import provider
-import 'package:work_hive_mobile/view/dashboard_view.dart';
 import 'package:work_hive_mobile/view/signin_view.dart';
 import 'package:work_hive_mobile/view_model/onbord_view_model.dart';
 
@@ -14,78 +13,102 @@ class OnboardingScreen extends StatelessWidget {
     final viewModel =
         Provider.of<OnboardingViewModel>(context); // Access ViewModel
 
+    // Define the onboarding pages content
+    final onboardingPages = [
+      const OnboardingContent(
+        image: "assets/images/logo.png",
+        title: "Welcome to Job Finder",
+        description: "Find your dream job quickly and easily.",
+      ),
+      const OnboardingContent(
+        image: "assets/images/undraw_Mobile_search_jxq5.png",
+        title: "Search for Jobs",
+        description: "Explore a wide range of jobs that match your skills.",
+      ),
+      const OnboardingContent(
+        image: "assets/images/0297ccab833e9d198ce973971f5d8342.png",
+        title: "Build your CV",
+        description:
+            "Create a professional CV with ease to showcase your skills and stand out to employers.",
+      ),
+      const OnboardingContent(
+        image: "assets/images/undraw_Note_list_re_r4u9.png",
+        title: "Track Applications",
+        description: "Stay organized and track all your job applications.",
+      ),
+      const OnboardingContent(
+        image: "assets/images/undraw_Interview_re_e5jn.png",
+        title: "Get Hired",
+        description: "Land your dream job with our powerful tools.",
+      ),
+    ];
+
     return Scaffold(
+        backgroundColor: Colors.white,
         body: SafeArea(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: TextButton(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: TextButton(
+                    onPressed: () {
+                      // Skip to the last page or home screen
+                      if (viewModel.isLastPage) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignInPage()),
+                        );
+                      } else {
+                        pageController.jumpToPage(onboardingPages.length - 1);
+                        viewModel.setPage(onboardingPages.length - 1);
+                      }
+                    },
+                    child: const Text(
+                      "Skip",
+                      style: TextStyle(fontSize: 16, color: Colors.blue),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: PageView.builder(
+                  controller: pageController,
+                  onPageChanged: (index) {
+                    viewModel.setPage(index);
+                  },
+                  itemCount: onboardingPages.length,
+                  itemBuilder: (context, index) => onboardingPages[index],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  onboardingPages.length,
+                  (index) => buildDot(index, viewModel.currentPage),
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
                 onPressed: () {
-                  // Skip to the last page or home screen
                   if (viewModel.isLastPage) {
+                    // Navigate to the home screen when on the last page
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => SignInPage()),
                     );
                   } else {
-                    pageController.jumpToPage(1); // Skip to last page directly
-                    viewModel.setPage(1); // Update the page index in ViewModel
+                    // Navigate to the next page using the ViewModel
+                    viewModel.nextPage(pageController);
                   }
                 },
-                child: const Text(
-                  "Skip",
-                  style: TextStyle(fontSize: 16, color: Colors.blue),
-                ),
+                child: Text(viewModel.isLastPage ? "Get Started" : "Next"),
               ),
-            ),
+              const SizedBox(height: 20),
+            ],
           ),
-          Expanded(
-            child: PageView.builder(
-              controller: pageController,
-              onPageChanged: (index) {
-                viewModel
-                    .setPage(index); // Update the current page in ViewModel
-              },
-              itemCount: 2, // Update this based on your onboarding data length
-              itemBuilder: (context, index) => const OnboardingContent(
-                image: "assets/images/logo.png", // Example image
-                title: "Welcome to Job Finder", // Example title
-                description:
-                    "Find your dream job quickly and easily.", // Example description
-              ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              2, // Same here, should be based on the number of onboarding pages
-              (index) => buildDot(index, viewModel.currentPage),
-            ),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              if (viewModel.isLastPage) {
-                // Navigate to the home screen when on the last page
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SignInPage()),
-                );
-              } else {
-                // Navigate to the next page using the ViewModel
-                viewModel.nextPage(pageController);
-              }
-            },
-            child: Text(viewModel.isLastPage ? "Get Started" : "Next"),
-          ),
-          const SizedBox(height: 20),
-        ],
-      ),
-    ));
+        ));
   }
 
   Widget buildDot(int index, int currentPage) {

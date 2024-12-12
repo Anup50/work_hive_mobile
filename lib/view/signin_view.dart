@@ -8,6 +8,7 @@ class SignInPage extends StatelessWidget {
     final viewModel = Provider.of<SignInViewModel>(context);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           // Make the entire body scrollable
