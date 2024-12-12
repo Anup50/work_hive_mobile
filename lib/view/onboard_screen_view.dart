@@ -1,95 +1,72 @@
 import 'package:flutter/material.dart';
-import 'package:work_hive_mobile/app.dart';
+import 'package:provider/provider.dart'; // Import provider
+import 'package:work_hive_mobile/view/dashboard_view.dart';
+import 'package:work_hive_mobile/view_model/onbord_view_model.dart';
 
 
-class OnboardingScreen extends StatefulWidget {
+class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
 
   @override
-  _OnboardingScreenState createState() => _OnboardingScreenState();
-}
-
-class _OnboardingScreenState extends State<OnboardingScreen> {
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
-
-  final List<Map<String, String>> onboardingData = [
-    {
-      "image": "assets/images/logo.png",
-      "title": "Welcome to Job Finder",
-      "description": "Find your dream job quickly and easily."
-    },
-    {
-      "image": "assets/images/logo.png",
-      "title": "Get Hired",
-      "description": "Connect with top employers and land your ideal job."
-    },
-  ];
-
-  void _onPageChanged(int index) {
-    setState(() {
-      _currentPage = index;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    // PageController for managing the page navigation
+    final PageController _pageController = PageController();
+    final viewModel = Provider.of<OnboardingViewModel>(context);
+
     return Scaffold(
       body: Column(
         children: [
           Expanded(
             child: PageView.builder(
               controller: _pageController,
-              onPageChanged: _onPageChanged,
-              itemCount: onboardingData.length,
-              itemBuilder: (context, index) => OnboardingContent(
-                image: onboardingData[index]["image"]!,
-                title: onboardingData[index]["title"]!,
-                description: onboardingData[index]["description"]!,
+              onPageChanged: (index) {
+                viewModel.setPage(index);
+              },
+              itemCount: 2,
+              itemBuilder: (context, index) => const OnboardingContent(
+                image: "assets/images/logo.png",
+                title: "Welcome to Job Finder",
+                description: "Find your dream job quickly and easily.",
               ),
             ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(
-              onboardingData.length,
-              (index) => buildDot(index),
+              2,
+              (index) => buildDot(index, viewModel.currentPage),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              if (_currentPage == onboardingData.length - 1) {
-                // Navigate to the home screen
+              if (viewModel.isLastPage) {
+                // Navigate to the home screen when on the last page
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => MyApp()),
+                  MaterialPageRoute(
+                      builder: (context) => const DashboardView()),
                 );
               } else {
-                // Move to the next page
-                _pageController.nextPage(
-                  duration: Duration(milliseconds: 300),
-                  curve: Curves.ease,
-                );
+                // Navigate to the next page using the ViewModel
+                viewModel.nextPage(_pageController);
               }
             },
-            child: Text(_currentPage == onboardingData.length - 1
-                ? "Get Started"
-                : "Next"),
+            child: Text(viewModel.isLastPage ? "Get Started" : "Next"),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
         ],
       ),
     );
   }
 
-  Widget buildDot(int index) {
+  Widget buildDot(int index, int currentPage) {
     return Container(
-      margin: EdgeInsets.only(right: 5),
+      margin: const EdgeInsets.only(right: 5),
       height: 10,
-      width: _currentPage == index ? 20 : 10,
+      width: currentPage == index ? 20 : 10,
       decoration: BoxDecoration(
-        color: _currentPage == index ? Colors.blue : Colors.grey,
+        color: currentPage == index ? Colors.blue : Colors.grey,
         borderRadius: BorderRadius.circular(5),
       ),
     );
@@ -100,6 +77,7 @@ class OnboardingContent extends StatelessWidget {
   final String image, title, description;
 
   const OnboardingContent({
+    super.key,
     required this.image,
     required this.title,
     required this.description,
@@ -111,12 +89,12 @@ class OnboardingContent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(image, height: 300), // Add your asset images
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Text(
           title,
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Text(
           description,
           textAlign: TextAlign.center,
