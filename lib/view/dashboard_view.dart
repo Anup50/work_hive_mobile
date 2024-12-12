@@ -12,90 +12,165 @@ class _DashboardViewState extends State<DashboardView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         toolbarHeight: 0,
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(12.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Welcome, Bob",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 10),
               TextField(
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search),
                   hintText: "Search Here",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25),
+                    borderSide: BorderSide(
+                        color: Colors.grey[300]!), // Light gray color
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25),
+                    borderSide: BorderSide(color: Colors.grey[300]!),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25),
+                    borderSide: BorderSide(color: Colors.grey[400]!),
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 10),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    CategoryChip(label: "UI/UX"),
-                    CategoryChip(label: "Graphics Design"),
-                    CategoryChip(label: "React"),
-                  ],
+                child: Center(
+                  // Center the Row horizontally
+                  child: Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.center, // Ensure the Row is centered
+                    children: [
+                      // UI/UX Chip
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            right: 8.0), // Space between chips
+                        child: Chip(
+                          label: const Text("UI/UX"),
+                          backgroundColor:
+                              Colors.white, // Set background color to white
+                          shape: StadiumBorder(
+                            // More rounded corners
+                            side: BorderSide(
+                                color: Colors.grey[300]!,
+                                width: 1.5), // Same grey as focused search box
+                          ),
+                        ),
+                      ),
+
+                      // Graphics Design Chip
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            right: 8.0), // Space between chips
+                        child: Chip(
+                          label: const Text("Graphics Design"),
+                          backgroundColor:
+                              Colors.white, // Set background color to white
+                          shape: StadiumBorder(
+                            // More rounded corners
+                            side: BorderSide(
+                                color: Colors.grey[300]!,
+                                width: 1.5), // Same grey as focused search box
+                          ),
+                        ),
+                      ),
+
+                      // React Chip
+                      Chip(
+                        label: const Text("React"),
+                        backgroundColor:
+                            Colors.white, // Set background color to white
+                        shape: StadiumBorder(
+                          // More rounded corners
+                          side: BorderSide(
+                              color: Colors.grey[300]!,
+                              width: 1.5), // Same grey as focused search box
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              SizedBox(height: 16),
-              Text(
+              const SizedBox(height: 16),
+              const Text(
                 "Recommended for you",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 8),
-              JobCard(
-                jobTitle: "Job Title",
-                companyName: "Company Name",
-                jobLocation: "Job Location (Workplace type)",
-                subtitle: "Based on your skills",
-              ),
-              JobCard(
-                jobTitle: "Job Title",
-                companyName: "Company Name",
-                jobLocation: "Job Location (Workplace type)",
-              ),
-              TextButton(
-                onPressed: () {},
-                child: Text("See all"),
-              ),
-              SizedBox(height: 16),
-              Text(
-                "Recent Postings",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8),
-              JobCard(
-                jobTitle: "Job Title",
-                companyName: "Company Name",
-                jobLocation: "Job Location (Workplace type)",
-              ),
-              JobCard(
-                jobTitle: "Job Title",
-                companyName: "Company Name",
-                jobLocation: "Job Location (Workplace type)",
-              ),
-              JobCard(
-                jobTitle: "Job Title",
-                companyName: "Company Name",
-                jobLocation: "Job Location (Workplace type)",
+              const SizedBox(height: 8),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const JobCard(
+                    jobTitle: "Job Title",
+                    companyName: "Company Name",
+                    jobLocation: "Job Location (Workplace type)",
+                    subtitle: "Based on your skills",
+                  ),
+                  const JobCard(
+                    jobTitle: "Job Title",
+                    companyName: "Company Name",
+                    jobLocation: "Job Location (Workplace type)",
+                  ),
+                  const JobCard(
+                    jobTitle: "Job Title",
+                    companyName: "Company Name",
+                    jobLocation: "Job Location (Workplace type)",
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text("See all"),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "Recent Postings",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  const JobCard(
+                    jobTitle: "Job Title",
+                    companyName: "Company Name",
+                    jobLocation: "Job Location (Workplace type)",
+                  ),
+                  const JobCard(
+                    jobTitle: "Job Title",
+                    companyName: "Company Name",
+                    jobLocation: "Job Location (Workplace type)",
+                  ),
+                  const JobCard(
+                    jobTitle: "Job Title",
+                    companyName: "Company Name",
+                    jobLocation: "Job Location (Workplace type)",
+                  ),
+                ],
               ),
             ],
           ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        backgroundColor: Colors.white,
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.work), label: ""),
           BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: ""),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: ""),
@@ -110,7 +185,7 @@ class _DashboardViewState extends State<DashboardView> {
 class CategoryChip extends StatelessWidget {
   final String label;
 
-  const CategoryChip({required this.label});
+  const CategoryChip({super.key, required this.label});
 
   @override
   Widget build(BuildContext context) {

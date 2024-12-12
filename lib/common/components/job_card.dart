@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class JobCard extends StatefulWidget {
   const JobCard({
     super.key,
@@ -26,6 +25,7 @@ class _JobCardState extends State<JobCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 2,
       child: Padding(
@@ -40,7 +40,8 @@ class _JobCardState extends State<JobCard> {
                 borderRadius: BorderRadius.circular(8),
                 image: widget.imagePath != null
                     ? DecorationImage(
-                        image: AssetImage(widget.imagePath!), // Use AssetImage or NetworkImage
+                        image: AssetImage(widget
+                            .imagePath!), // Use AssetImage or NetworkImage
                         fit: BoxFit.cover,
                       )
                     : null,
@@ -50,7 +51,7 @@ class _JobCardState extends State<JobCard> {
                   ? Icon(Icons.image_not_supported, color: Colors.grey[600])
                   : null,
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             // Job Details
             Expanded(
               child: Column(
@@ -58,7 +59,8 @@ class _JobCardState extends State<JobCard> {
                 children: [
                   Text(
                     widget.jobTitle,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     widget.companyName,
@@ -69,10 +71,10 @@ class _JobCardState extends State<JobCard> {
                     style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                   ),
                   if (widget.subtitle != null) ...[
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(
                       widget.subtitle!,
-                      style: TextStyle(fontSize: 12, color: Colors.blue),
+                      style: const TextStyle(fontSize: 12, color: Colors.blue),
                     ),
                   ],
                 ],

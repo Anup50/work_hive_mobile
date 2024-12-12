@@ -9,7 +9,7 @@ class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // PageController for managing the page navigation
-    final PageController _pageController = PageController();
+    final PageController pageController = PageController();
     final viewModel =
         Provider.of<OnboardingViewModel>(context); // Access ViewModel
 
@@ -31,7 +31,7 @@ class OnboardingScreen extends StatelessWidget {
                           builder: (context) => const DashboardView()),
                     );
                   } else {
-                    _pageController.jumpToPage(1); // Skip to last page directly
+                    pageController.jumpToPage(1); // Skip to last page directly
                     viewModel.setPage(1); // Update the page index in ViewModel
                   }
                 },
@@ -44,7 +44,7 @@ class OnboardingScreen extends StatelessWidget {
           ),
           Expanded(
             child: PageView.builder(
-              controller: _pageController,
+              controller: pageController,
               onPageChanged: (index) {
                 viewModel
                     .setPage(index); // Update the current page in ViewModel
@@ -65,23 +65,23 @@ class OnboardingScreen extends StatelessWidget {
               (index) => buildDot(index, viewModel.currentPage),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
               if (viewModel.isLastPage) {
                 // Navigate to the home screen when on the last page
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => DashboardView()),
+                  MaterialPageRoute(builder: (context) => const DashboardView()),
                 );
               } else {
                 // Navigate to the next page using the ViewModel
-                viewModel.nextPage(_pageController);
+                viewModel.nextPage(pageController);
               }
             },
             child: Text(viewModel.isLastPage ? "Get Started" : "Next"),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
         ],
       ),
     ));
@@ -89,7 +89,7 @@ class OnboardingScreen extends StatelessWidget {
 
   Widget buildDot(int index, int currentPage) {
     return Container(
-      margin: EdgeInsets.only(right: 5),
+      margin: const EdgeInsets.only(right: 5),
       height: 10,
       width: currentPage == index ? 20 : 10,
       decoration: BoxDecoration(
@@ -103,7 +103,7 @@ class OnboardingScreen extends StatelessWidget {
 class OnboardingContent extends StatelessWidget {
   final String image, title, description;
 
-  const OnboardingContent({
+  const OnboardingContent({super.key, 
     required this.image,
     required this.title,
     required this.description,
@@ -115,12 +115,12 @@ class OnboardingContent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(image, height: 300), // Add your asset images
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Text(
           title,
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Text(
           description,
           textAlign: TextAlign.center,
