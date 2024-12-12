@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart'; // Import provider
-import 'package:work_hive_mobile/view/signin_view.dart';
 import 'package:work_hive_mobile/view/signup_view.dart';
 import 'package:work_hive_mobile/view_model/onbord_view_model.dart';
 
@@ -18,7 +17,7 @@ class OnboardingScreen extends StatelessWidget {
     final onboardingPages = [
       const OnboardingContent(
         image: "assets/images/logo.png",
-        title: "Welcome to Job Finder",
+        title: "Welcome to WorkHive",
         description: "Find your dream job quickly and easily.",
       ),
       const OnboardingContent(

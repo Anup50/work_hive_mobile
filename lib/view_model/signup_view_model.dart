@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:work_hive_mobile/view/signin_view.dart';
 
 class SignUpViewModel extends ChangeNotifier {
   final fullNameController = TextEditingController();
@@ -40,10 +41,12 @@ class SignUpViewModel extends ChangeNotifier {
         confirmPasswordError == null;
   }
 
-  void signUp() {
+  void signUp(BuildContext context) {
     if (validateInputs()) {
-      // Add your sign-up logic here
-      print('Signed up successfully');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => SignInPage()),
+      );
     }
   }
 }

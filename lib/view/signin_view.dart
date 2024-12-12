@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:work_hive_mobile/view/signup_view.dart';
 import 'package:work_hive_mobile/view_model/signin_view_model.dart';
 
 class SignInPage extends StatelessWidget {
@@ -81,7 +82,9 @@ class SignInPage extends StatelessWidget {
 
                 // Log in button
                 ElevatedButton(
-                  onPressed: viewModel.logIn,
+                  onPressed: () {
+                    viewModel.logIn(context);
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 50), // Full width button
                     backgroundColor: Colors.blue, // Blue background color
@@ -133,9 +136,15 @@ class SignInPage extends StatelessWidget {
                 Center(
                   child: TextButton(
                     onPressed: () {
-                      // Add sign-up navigation
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              SignUpPage(), // Replace with your actual SignUpPage widget
+                        ),
+                      );
                     },
-                    child: Text("Don't have an account? Sign Up"),
+                    child: const Text("Don't have an account? Sign Up"),
                   ),
                 ),
               ],

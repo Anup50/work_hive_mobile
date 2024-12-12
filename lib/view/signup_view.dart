@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:work_hive_mobile/view/signin_view.dart';
 import 'package:work_hive_mobile/view_model/signup_view_model.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -97,7 +98,10 @@ class SignUpPage extends StatelessWidget {
 
                 // Sign Up button
                 ElevatedButton(
-                  onPressed: viewModel.signUp,
+                  onPressed: () {
+                    viewModel
+                        .signUp(context); // Wrap in a lambda to pass context
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 50), // Full width button
                     backgroundColor: Colors.blue, // Blue background color
@@ -107,7 +111,7 @@ class SignUpPage extends StatelessWidget {
                           8), // Boxy, with slightly rounded corners
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Sign Up',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
@@ -152,9 +156,15 @@ class SignUpPage extends StatelessWidget {
                       child: Center(
                         child: TextButton(
                           onPressed: () {
-                            // Add sign-in navigation
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    SignInPage(), // Replace with your actual SignUpPage widget
+                              ),
+                            );
                           },
-                          child: const Text("Already have an account? Sign In"),
+                          child: const Text("Don't have an account? Sign Up"),
                         ),
                       ),
                     ),

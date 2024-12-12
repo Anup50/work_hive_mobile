@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:work_hive_mobile/view/dashboard_view.dart';
+import 'package:work_hive_mobile/view/signup_view.dart';
 
 class SignInViewModel extends ChangeNotifier {
   final emailController = TextEditingController();
@@ -22,10 +24,12 @@ class SignInViewModel extends ChangeNotifier {
     return emailError == null && passwordError == null;
   }
 
-  void logIn() {
+  void logIn(BuildContext context) {
     if (validateInputs()) {
-      // Add your login logic here
-      print('Logged in successfully');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const DashboardView()),
+      );
     }
   }
 }
