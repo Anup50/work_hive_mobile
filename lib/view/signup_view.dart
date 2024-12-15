@@ -164,7 +164,7 @@ class SignUpPage extends StatelessWidget {
                               ),
                             );
                           },
-                          child: const Text("Don't have an account? Sign Up"),
+                          child: const Text("Already have an account? Sign In"),
                         ),
                       ),
                     ),
