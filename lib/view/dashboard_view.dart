@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:work_hive_mobile/common/components/job_card.dart';
+import 'package:work_hive_mobile/core/common/components/job_card.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
