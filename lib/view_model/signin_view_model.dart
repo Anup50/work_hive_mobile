@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:work_hive_mobile/view/dashboard_view.dart';
-import 'package:work_hive_mobile/view/signup_view.dart';
+import 'package:work_hive_mobile/view/home_view.dart';
 
 class SignInViewModel extends ChangeNotifier {
   final emailController = TextEditingController();
@@ -28,7 +27,7 @@ class SignInViewModel extends ChangeNotifier {
     if (validateInputs()) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const DashboardView()),
+        MaterialPageRoute(builder: (context) => const HomeView()),
       );
     }
   }

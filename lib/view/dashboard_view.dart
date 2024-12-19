@@ -35,8 +35,7 @@ class _DashboardViewState extends State<DashboardView> {
                   hintText: "Search Here",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25),
-                    borderSide: BorderSide(
-                        color: Colors.grey[300]!), 
+                    borderSide: BorderSide(color: Colors.grey[300]!),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25),
@@ -53,51 +52,39 @@ class _DashboardViewState extends State<DashboardView> {
                 scrollDirection: Axis.horizontal,
                 child: Center(
                   child: Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.center, 
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(
-                            right: 8.0), 
+                        padding: const EdgeInsets.only(right: 8.0),
                         child: Chip(
                           label: const Text("UI/UX"),
-                          backgroundColor:
-                              Colors.white, 
+                          backgroundColor: Colors.white,
                           shape: StadiumBorder(
-                           
                             side: BorderSide(
-                                color: Colors.grey[300]!,
-                                width: 1.5), 
+                                color: Colors.grey[300]!, width: 1.5),
                           ),
                         ),
                       ),
 
                       // Graphics Design Chip
                       Padding(
-                        padding: const EdgeInsets.only(
-                            right: 8.0), 
+                        padding: const EdgeInsets.only(right: 8.0),
                         child: Chip(
                           label: const Text("Graphics Design"),
-                          backgroundColor:
-                              Colors.white, 
+                          backgroundColor: Colors.white,
                           shape: StadiumBorder(
-                           
                             side: BorderSide(
-                                color: Colors.grey[300]!,
-                                width: 1.5), 
+                                color: Colors.grey[300]!, width: 1.5),
                           ),
                         ),
                       ),
 
                       Chip(
                         label: const Text("React"),
-                        backgroundColor:
-                            Colors.white, 
+                        backgroundColor: Colors.white,
                         shape: StadiumBorder(
-
-                          side: BorderSide(
-                              color: Colors.grey[300]!,
-                              width: 1.5), 
+                          side:
+                              BorderSide(color: Colors.grey[300]!, width: 1.5),
                         ),
                       ),
                     ],
@@ -164,16 +151,6 @@ class _DashboardViewState extends State<DashboardView> {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.work), label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: ""),
-        ],
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
       ),
     );
   }

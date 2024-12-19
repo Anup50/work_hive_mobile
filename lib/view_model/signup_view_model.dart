@@ -45,7 +45,7 @@ class SignUpViewModel extends ChangeNotifier {
     if (validateInputs()) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => SignInPage()),
+        MaterialPageRoute(builder: (context) => const SignInPage()),
       );
     }
   }

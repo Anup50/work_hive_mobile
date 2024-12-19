@@ -58,7 +58,8 @@ class OnboardingScreen extends StatelessWidget {
                       if (viewModel.isLastPage) {
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => SignUpPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const SignUpPage()),
                         );
                       } else {
                         pageController.jumpToPage(onboardingPages.length - 1);
@@ -96,7 +97,8 @@ class OnboardingScreen extends StatelessWidget {
                     // Navigate to the home screen when on the last page
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => SignUpPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const SignUpPage()),
                     );
                   } else {
                     // Navigate to the next page using the ViewModel

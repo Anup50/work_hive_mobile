@@ -4,6 +4,8 @@ import 'package:work_hive_mobile/view/signup_view.dart';
 import 'package:work_hive_mobile/view_model/signin_view_model.dart';
 
 class SignInPage extends StatelessWidget {
+  const SignInPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<SignInViewModel>(context);
@@ -24,7 +26,7 @@ class SignInPage extends StatelessWidget {
                   width: 200, // Adjust the size as needed
                 ),
 
-                SizedBox(height: 16), // Add some space after the image
+                const SizedBox(height: 16), // Add some space after the image
 
                 // Title and subtitle
                 const Text(
@@ -35,9 +37,9 @@ class SignInPage extends StatelessWidget {
                   'Account',
                   style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 const Text('Enter your email and password to log in'),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
 
                 // Email TextField
                 TextField(
@@ -52,7 +54,7 @@ class SignInPage extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
 
                 // Password TextField
                 TextField(
@@ -62,23 +64,23 @@ class SignInPage extends StatelessWidget {
                     labelText: 'Password',
                     errorText: viewModel.passwordError,
                     prefixIcon: const Icon(Icons.lock),
-                    suffixIcon: Icon(Icons.visibility),
+                    suffixIcon: const Icon(Icons.visibility),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
 
                 // Forgot password button
                 Align(
                   alignment: Alignment.topRight,
                   child: TextButton(
                     onPressed: () {},
-                    child: Text('Forgot Password?'),
+                    child: const Text('Forgot Password?'),
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
 
                 // Log in button
                 ElevatedButton(
@@ -86,7 +88,8 @@ class SignInPage extends StatelessWidget {
                     viewModel.logIn(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 50), // Full width button
+                    minimumSize:
+                        const Size(double.infinity, 50), // Full width button
                     backgroundColor: Colors.blue, // Blue background color
                     foregroundColor: Colors.white, // White text color
                     shape: RoundedRectangleBorder(
@@ -94,13 +97,13 @@ class SignInPage extends StatelessWidget {
                           8), // Boxy, with slightly rounded corners
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Log In',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
 
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
 
                 // Or text
                 const Center(
@@ -120,19 +123,19 @@ class SignInPage extends StatelessWidget {
                     minimumSize: const Size(double.infinity, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
-                          8), // Boxy, with slightly rounded corners
+                          8), 
                     ),
                   ),
                   icon: Image.asset(
                     'assets/icons/icons8-google-48.png',
-                    height: 24, // Adjust the height as needed
-                    width: 24, // Adjust the width as needed
+                    height: 24, 
+                    width: 24, 
                   ),
                   label: const Text('Continue with Google'),
                 ),
 
                 // Sign Up navigation
-                SizedBox(height: 120),
+                const SizedBox(height: 120),
                 Center(
                   child: TextButton(
                     onPressed: () {
@@ -140,7 +143,7 @@ class SignInPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              SignUpPage(), // Replace with your actual SignUpPage widget
+                              const SignUpPage(), 
                         ),
                       );
                     },

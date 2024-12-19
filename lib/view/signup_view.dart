@@ -4,6 +4,8 @@ import 'package:work_hive_mobile/view/signin_view.dart';
 import 'package:work_hive_mobile/view_model/signup_view_model.dart';
 
 class SignUpPage extends StatelessWidget {
+  const SignUpPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<SignUpViewModel>(context);
@@ -23,7 +25,7 @@ class SignUpPage extends StatelessWidget {
                   width: 200, // Adjust the size as needed
                 ),
 
-                SizedBox(height: 16), // Add some space after the image
+                const SizedBox(height: 16), // Add some space after the image
 
                 // Title and subtitle
                 const Text(
@@ -34,9 +36,9 @@ class SignUpPage extends StatelessWidget {
                   'Account',
                   style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 const Text('Fill in the details to sign up'),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
 
                 // Full Name TextField
                 TextField(
@@ -50,7 +52,7 @@ class SignUpPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
 
                 // Email TextField
                 TextField(
@@ -64,7 +66,7 @@ class SignUpPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
 
                 // Password TextField
                 TextField(
@@ -79,7 +81,7 @@ class SignUpPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
 
                 // Confirm Password TextField
                 TextField(
@@ -94,7 +96,7 @@ class SignUpPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
 
                 // Sign Up button
                 ElevatedButton(
@@ -103,7 +105,8 @@ class SignUpPage extends StatelessWidget {
                         .signUp(context); // Wrap in a lambda to pass context
                   },
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 50), // Full width button
+                    minimumSize:
+                        const Size(double.infinity, 50), // Full width button
                     backgroundColor: Colors.blue, // Blue background color
                     foregroundColor: Colors.white, // White text color
                     shape: RoundedRectangleBorder(
@@ -117,7 +120,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
 
                 // Or text
                 const Center(
@@ -160,7 +163,7 @@ class SignUpPage extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    SignInPage(), // Replace with your actual SignUpPage widget
+                                    const SignInPage(), // Replace with your actual SignUpPage widget
                               ),
                             );
                           },
