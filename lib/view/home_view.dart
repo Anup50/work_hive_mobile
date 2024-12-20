@@ -22,13 +22,17 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: IndexedStack(
         index: _selectedIndex,
         children: _bottomScreens,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white, 
         type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
+        selectedItemColor: Colors.black, 
+        unselectedItemColor: Colors.grey, 
         onTap: (index) {
           setState(() {
             _selectedIndex = index;

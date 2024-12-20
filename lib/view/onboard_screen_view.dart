@@ -44,77 +44,76 @@ class OnboardingScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: TextButton(
-                    onPressed: () {
-                      // Skip to the last page or home screen
-                      if (viewModel.isLastPage) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SignUpPage()),
-                        );
-                      } else {
-                        pageController.jumpToPage(onboardingPages.length - 1);
-                        viewModel.setPage(onboardingPages.length - 1);
-                      }
-                    },
-                    child: const Text(
-                      "Skip",
-                      style: TextStyle(fontSize: 16, color: Colors.blue),
-                    ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: TextButton(
+                  onPressed: () {
+                    if (viewModel.isLastPage) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SignUpPage()),
+                      );
+                    } else {
+                      pageController.jumpToPage(onboardingPages.length - 1);
+                      viewModel.setPage(onboardingPages.length - 1);
+                    }
+                  },
+                  child: const Text(
+                    "Skip",
+                    style: TextStyle(fontSize: 16, color: Colors.blue),
                   ),
                 ),
               ),
-              Expanded(
-                child: PageView.builder(
-                  controller: pageController,
-                  onPageChanged: (index) {
-                    viewModel.setPage(index);
-                  },
-                  itemCount: onboardingPages.length,
-                  itemBuilder: (context, index) => onboardingPages[index],
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  onboardingPages.length,
-                  (index) => buildDot(index, viewModel.currentPage),
-                ),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  if (viewModel.isLastPage) {
-                    // Navigate to the home screen when on the last page
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SignUpPage()),
-                    );
-                  } else {
-                    // Navigate to the next page using the ViewModel
-                    viewModel.nextPage(pageController);
-                  }
+            ),
+            Expanded(
+              child: PageView.builder(
+                controller: pageController,
+                onPageChanged: (index) {
+                  viewModel.setPage(index);
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
-                ),
-                child: Text(viewModel.isLastPage ? "Get Started" : "Next"),
+                itemCount: onboardingPages.length,
+                itemBuilder: (context, index) => onboardingPages[index],
               ),
-              const SizedBox(height: 20),
-            ],
-          ),
-        ));
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                onboardingPages.length,
+                (index) => buildDot(index, viewModel.currentPage),
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              onPressed: () {
+                if (viewModel.isLastPage) {
+                  // Navigate to the home screen when on the last page
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SignUpPage()),
+                  );
+                } else {
+                  // Navigate to the next page using the ViewModel
+                  viewModel.nextPage(pageController);
+                }
+              },
+              child: Text(viewModel.isLastPage ? "Get Started" : "Next"),
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget buildDot(int index, int currentPage) {

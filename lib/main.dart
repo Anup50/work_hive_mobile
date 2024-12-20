@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:work_hive_mobile/view_model/onbord_view_model.dart';
 import 'package:work_hive_mobile/view_model/signin_view_model.dart'; // Add the SignInViewModel import
-import 'package:work_hive_mobile/view/signin_view.dart'; // Add the SignInPage import
 import 'package:work_hive_mobile/view_model/signup_view_model.dart';
 
 import 'app.dart'; // Main app entry point

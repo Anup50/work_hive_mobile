@@ -139,31 +139,34 @@ class SignUpPage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          8), // Boxy, with slightly rounded corners
+                      borderRadius: BorderRadius.circular(8),
                     ),
+                    backgroundColor: const Color.fromARGB(255, 193, 227, 242),
+                    foregroundColor: Colors.blue,
                   ),
                   icon: Image.asset(
                     'assets/icons/icons8-google-48.png',
-                    height: 24, // Adjust the height as needed
-                    width: 24, // Adjust the width as needed
+                    height: 24,
+                    width: 24,
                   ),
-                  label: const Text('Sign Up with Google'),
+                  label: const Text('Sign Up with Google',
+                      style: TextStyle(
+                        fontFamily: 'PlusJakartaSans SemiBold',
+                      )),
                 ),
+
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
-                          top: 45), // Add padding for extra space
+                      padding: const EdgeInsets.only(top: 45),
                       child: Center(
                         child: TextButton(
                           onPressed: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    const SignInPage(), // Replace with your actual SignUpPage widget
+                                builder: (context) => const SignInPage(),
                               ),
                             );
                           },

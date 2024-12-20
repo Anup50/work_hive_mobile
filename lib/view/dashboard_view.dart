@@ -12,7 +12,6 @@ class _DashboardViewState extends State<DashboardView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         toolbarHeight: 0,
         elevation: 0,
@@ -26,7 +25,8 @@ class _DashboardViewState extends State<DashboardView> {
             children: [
               const Text(
                 "Welcome, Bob",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 24, fontFamily: 'PlusJakartaSans SemiBold'),
               ),
               const SizedBox(height: 10),
               TextField(

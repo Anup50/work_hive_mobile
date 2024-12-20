@@ -109,7 +109,7 @@ class SignInPage extends StatelessWidget {
                 const Center(
                   child: Text(
                     'Or',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(fontFamily: 'PlusJakartaSans SemiBold'),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -117,21 +117,25 @@ class SignInPage extends StatelessWidget {
                 // Google sign-in button
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Add Google sign-in logic
+                    // Add Google sign-up logic
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          8), 
+                      borderRadius: BorderRadius.circular(8),
                     ),
+                    backgroundColor: const Color.fromARGB(255, 193, 227, 242),
+                    foregroundColor: Colors.blue,
                   ),
                   icon: Image.asset(
                     'assets/icons/icons8-google-48.png',
-                    height: 24, 
-                    width: 24, 
+                    height: 24,
+                    width: 24,
                   ),
-                  label: const Text('Continue with Google'),
+                  label: const Text('Sign Up with Google',
+                      style: TextStyle(
+                        fontFamily: 'PlusJakartaSans SemiBold',
+                      )),
                 ),
 
                 // Sign Up navigation
@@ -142,8 +146,7 @@ class SignInPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              const SignUpPage(), 
+                          builder: (context) => const SignUpPage(),
                         ),
                       );
                     },
