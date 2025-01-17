@@ -65,8 +65,6 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                         ),
                       ),
-
-                      // Graphics Design Chip
                       Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: Chip(
@@ -78,7 +76,6 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                         ),
                       ),
-
                       Chip(
                         label: const Text("React"),
                         backgroundColor: Colors.white,
