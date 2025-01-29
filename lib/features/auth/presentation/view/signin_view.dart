@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:work_hive_mobile/app/di/di.dart';
 import 'package:work_hive_mobile/features/auth/presentation/view/signup_view.dart';
 import 'package:work_hive_mobile/features/auth/presentation/view_model/login/login_bloc.dart';
+import 'package:work_hive_mobile/features/auth/presentation/view_model/signup/signup_bloc.dart';
 
 class SignInPage extends StatelessWidget {
   SignInPage({super.key});
@@ -101,10 +103,8 @@ class SignInPage extends StatelessWidget {
                         context.read<LoginBloc>().add(
                               LoginUserEvent(
                                 context: context,
-                                email: _emailController
-                                    .text, // Use .text to get the String value
-                                password: _passwordController
-                                    .text, // Use .text here as well
+                                email: _emailController.text,
+                                password: _passwordController.text,
                               ),
                             );
                       }
@@ -162,7 +162,12 @@ class SignInPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const RegisterView(),
+                            builder: (context) {
+                              return BlocProvider<SignupBloc>(
+                                create: (_) => getIt<SignupBloc>(),
+                                child: const RegisterView(),
+                              );
+                            },
                           ),
                         );
                       },

@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:work_hive_mobile/features/auth/presentation/view/signup_view.dart';
+import 'package:work_hive_mobile/app/di/di.dart';
+import 'package:work_hive_mobile/features/auth/presentation/view/signin_view.dart';
+import 'package:work_hive_mobile/features/auth/presentation/view_model/login/login_bloc.dart';
 import 'package:work_hive_mobile/features/onboarding/presentation/view_model/onboard_cubit.dart';
 
-class OnboardingScreen extends StatelessWidget {
+class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     final PageController pageController = PageController();
@@ -49,10 +56,16 @@ class OnboardingScreen extends StatelessWidget {
                 child: TextButton(
                   onPressed: () {
                     if (context.read<OnboardingCubit>().isLastPage) {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const RegisterView()),
+                          builder: (context) {
+                            return BlocProvider<LoginBloc>(
+                              create: (_) => getIt<LoginBloc>(),
+                              child: SignInPage(),
+                            );
+                          },
+                        ),
                       );
                     } else {
                       pageController.jumpToPage(4);
@@ -69,15 +82,12 @@ class OnboardingScreen extends StatelessWidget {
             Expanded(
               child: PageView.builder(
                 controller: pageController,
-                itemCount:
-                    onboardingPages.length, // Use the length of onboardingPages
+                itemCount: onboardingPages.length,
                 onPageChanged: (index) {
-                  context
-                      .read<OnboardingCubit>()
-                      .setPage(index); // Update page index
+                  context.read<OnboardingCubit>().setPage(index);
                 },
                 itemBuilder: (context, index) {
-                  return onboardingPages[index]; // Use the onboardingPages list
+                  return onboardingPages[index];
                 },
               ),
             ),
@@ -86,8 +96,7 @@ class OnboardingScreen extends StatelessWidget {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
-                    onboardingPages
-                        .length, // Generate dots for all onboarding pages
+                    onboardingPages.length,
                     (index) => buildDot(index, currentPage),
                   ),
                 );
@@ -101,16 +110,22 @@ class OnboardingScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                if (context.read<OnboardingCubit>().isLastPage) {
-                  // Navigate to the next screen when on the last page
-                  Navigator.pushReplacement(
+                final onboardingCubit = context.read<OnboardingCubit>();
+
+                if (onboardingCubit.isLastPage) {
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const RegisterView()),
+                      builder: (context) {
+                        return BlocProvider<LoginBloc>(
+                          create: (_) => getIt<LoginBloc>(),
+                          child: SignInPage(),
+                        );
+                      },
+                    ),
                   );
                 } else {
-                  // Navigate to the next page using the Cubit
-                  context.read<OnboardingCubit>().nextPage(pageController);
+                  onboardingCubit.nextPage(pageController);
                 }
               },
               child: Text(
@@ -154,7 +169,7 @@ class OnboardingContent extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(image, height: 300), // Add your asset images
+        Image.asset(image, height: 300),
         const SizedBox(height: 20),
         Text(
           title,

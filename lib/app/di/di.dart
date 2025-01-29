@@ -11,21 +11,15 @@ import 'package:work_hive_mobile/features/onboarding/presentation/view_model/onb
 final getIt = GetIt.instance;
 
 Future<void> initDependencies() async {
-  // First initialize hive service
   await _initHiveService();
-
-  // Initialize the onboarding cubit and other dependencies
-  await _initOnboardingDependencies();
-  await _initRegisterDependencies();
   await _initLoginDependencies();
+  await _initRegisterDependencies();
+
+  await _initOnboardingDependencies();
 }
 
 _initHiveService() {
   getIt.registerLazySingleton<HiveService>(() => HiveService());
-}
-
-_initOnboardingDependencies() {
-  getIt.registerFactory<OnboardingCubit>(() => OnboardingCubit());
 }
 
 _initRegisterDependencies() {
@@ -62,8 +56,12 @@ _initLoginDependencies() async {
 
   getIt.registerFactory<LoginBloc>(
     () => LoginBloc(
-      signupBloc: getIt<SignupBloc>(),
       loginUseCase: getIt<LoginUseCase>(),
+      signupBloc: getIt<SignupBloc>(),
     ),
   );
+}
+
+_initOnboardingDependencies() {
+  getIt.registerFactory<OnboardingCubit>(() => OnboardingCubit());
 }

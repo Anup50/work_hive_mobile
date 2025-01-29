@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:work_hive_mobile/app/di/di.dart';
 import 'package:work_hive_mobile/features/auth/presentation/view/signin_view.dart';
+import 'package:work_hive_mobile/features/auth/presentation/view_model/login/login_bloc.dart';
 import 'package:work_hive_mobile/features/auth/presentation/view_model/signup/signup_bloc.dart';
 
 class RegisterView extends StatefulWidget {
@@ -22,7 +24,6 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -35,10 +36,7 @@ class _RegisterViewState extends State<RegisterView> {
                   height: 50,
                   width: 200,
                 ),
-
                 const SizedBox(height: 16),
-
-                // Title and subtitle
                 const Text(
                   'Create Your',
                   style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
@@ -207,24 +205,21 @@ class _RegisterViewState extends State<RegisterView> {
                                   );
                             }
                           },
-                          child: const Text('Register'),
+                          child: const Text(
+                            'Register',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
-
                       const Center(
                         child: Text(
                           'Or',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
-
                       _gap,
-
-                      // Google sign-up button
                       ElevatedButton.icon(
-                        onPressed: () {
-                          // Add Google sign-up logic
-                        },
+                        onPressed: () {},
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(double.infinity, 50),
                           shape: RoundedRectangleBorder(
@@ -244,7 +239,6 @@ class _RegisterViewState extends State<RegisterView> {
                               fontFamily: 'PlusJakartaSans SemiBold',
                             )),
                       ),
-
                       Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -256,7 +250,12 @@ class _RegisterViewState extends State<RegisterView> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => SignInPage(),
+                                      builder: (context) {
+                                        return BlocProvider<LoginBloc>(
+                                          create: (_) => getIt<LoginBloc>(),
+                                          child: SignInPage(),
+                                        );
+                                      },
                                     ),
                                   );
                                 },

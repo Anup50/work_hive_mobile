@@ -1,79 +1,3 @@
-// import 'package:equatable/equatable.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:work_hive_mobile/features/auth/domain/use_case/login_use_case.dart';
-// import 'package:work_hive_mobile/features/auth/presentation/view_model/signup/signup_bloc.dart';
-// import 'package:work_hive_mobile/view/dashboard_view.dart';
-
-// part 'login_event.dart';
-// part 'login_state.dart';
-
-// class LoginBloc extends Bloc<LoginEvent, LoginState> {
-//   final SignupBloc _signupBloc;
-//   // final HomeCubit _homeCubit;
-//   final LoginUseCase _loginUseCase;
-
-//   LoginBloc({
-//     required SignupBloc signupBloc,
-//     required LoginUseCase loginUseCase,
-//     // required HomeCubit homeCubit,
-//   })  : _signupBloc = signupBloc,
-//         // _homeCubit = homeCubit,
-//         super(LoginState.initial()) {
-//     on<NavigateRegisterScreenEvent>((event, emit) {
-//       Navigator.push(
-//         event.context,
-//         MaterialPageRoute(
-//           builder: (context) =>
-//               BlocProvider.value(value: _signupBloc, child: event.destination),
-//         ),
-//       );
-//     });
-//     on<LoginUserEvent>(
-//       (event, emit) async {
-//         emit(state.copyWith(isLoading: true));
-//         final result = await _loginUseCase(
-//           LoginParams(
-//             email: event.email,
-//             password: event.password,
-//           ),
-//         );
-
-//         result.fold(
-//           (failure) {
-//             emit(state.copyWith(isLoading: false, isSuccess: false));
-//             showMySnackBar(
-//               context: event.context,
-//               message: "Invalid Credentials",
-//               color: Colors.red,
-//             );
-//           },
-//           (token) {
-//             emit(state.copyWith(isLoading: false, isSuccess: true));
-//             add(
-//               NavigateHomeScreenEvent(
-//                 context: event.context,
-//                 destination: HomeView(),
-//               ),
-//             );
-//             //_homeCubit.setToken(token);
-//           },
-//         );
-//       },
-//     );
-//   }
-// }
-
-//     on<NavigateHomeScreenEvent>((event, emit) {
-//       Navigator.pushReplacement(
-//         event.context,
-//         MaterialPageRoute(
-//           builder: (context) => const DashboardView(),
-//         ),
-//       );
-//     });
-//   }
-// }
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -123,7 +47,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               message: "Login Successful",
               color: Colors.green,
             );
-            // Dispatch a navigation event
+
             add(NavigateHomeScreenEvent(
               context: event.context,
               destination: const DashboardView(),
@@ -145,7 +69,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       },
     );
 
-    // Event handler for navigation to the registration screen
     on<NavigateRegisterScreenEvent>(
       (event, emit) {
         Navigator.push(
@@ -160,7 +83,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 }
 
-// Snackbar utility function
 void showMySnackBar({
   required BuildContext context,
   required String message,
