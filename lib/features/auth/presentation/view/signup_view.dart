@@ -19,8 +19,11 @@ class _RegisterViewState extends State<RegisterView> {
   final _emailController = TextEditingController(text: '');
   final _passwordController = TextEditingController(text: '');
   final _confirmPasswordController = TextEditingController(text: '');
-  String _selectedRole = 'Job Seeker';
-
+  final Map<String, String> roleMap = {
+    'Job Seeker': '676f9a7aa2d59fd9940cf2b3', // Example Role ID
+    'Employer': '2', // Example Role ID
+  };
+  String _selectedRole = '676f9a7aa2d59fd9940cf2b3';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,16 +63,18 @@ class _RegisterViewState extends State<RegisterView> {
                             child: ElevatedButton(
                               onPressed: () {
                                 setState(() {
-                                  _selectedRole = 'Job Seeker';
+                                  _selectedRole = roleMap['Job Seeker']!;
                                 });
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: _selectedRole == 'Job Seeker'
-                                    ? Colors.blue
-                                    : Colors.grey[200],
-                                foregroundColor: _selectedRole == 'Job Seeker'
-                                    ? Colors.white
-                                    : Colors.black,
+                                backgroundColor:
+                                    _selectedRole == roleMap['Job Seeker']
+                                        ? Colors.blue
+                                        : Colors.grey[200],
+                                foregroundColor:
+                                    _selectedRole == roleMap['Job Seeker']
+                                        ? Colors.white
+                                        : Colors.black,
                               ),
                               child: const Text('Job Seeker'),
                             ),
