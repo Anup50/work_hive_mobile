@@ -3,21 +3,56 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:work_hive_mobile/features/auth/domain/use_case/login_use_case.dart';
 import 'package:work_hive_mobile/features/auth/presentation/view_model/signup/signup_bloc.dart';
-import 'package:work_hive_mobile/view/dashboard_view.dart';
+import 'package:work_hive_mobile/features/user_data/presentation/view/job_seeker_view.dart';
+import 'package:work_hive_mobile/features/user_data/presentation/view_model/bloc/job_seeker_bloc.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final SignupBloc _signupBloc;
+  final JobSeekerBloc _jobSeekerBloc;
   final LoginUseCase _loginUseCase;
 
   LoginBloc({
     required SignupBloc signupBloc,
+    required JobSeekerBloc jobSeekerBloc,
     required LoginUseCase loginUseCase,
   })  : _signupBloc = signupBloc,
+        _jobSeekerBloc = jobSeekerBloc,
         _loginUseCase = loginUseCase,
         super(LoginState.initial()) {
+    on<NavigateRegisterScreenEvent>(
+      (event, emit) {
+        Navigator.push(
+          event.context,
+          MaterialPageRoute(
+            builder: (context) => MultiBlocProvider(
+              providers: [
+                // BlocProvider.value(value: getIt<CourseBloc>()),
+                // BlocProvider.value(value: getIt<BatchBloc>()),
+                BlocProvider.value(value: _signupBloc),
+              ],
+              child: event.destination,
+            ),
+          ),
+        );
+      },
+    );
+
+    on<NavigateHomeScreenEvent>(
+      (event, emit) {
+        Navigator.pushReplacement(
+          event.context,
+          MaterialPageRoute(
+            builder: (context) => BlocProvider.value(
+              value: _jobSeekerBloc,
+              child: event.destination,
+            ),
+          ),
+        );
+      },
+    );
     // Event handler for logging in
     on<LoginUserEvent>(
       (event, emit) async {
@@ -50,36 +85,24 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
             add(NavigateHomeScreenEvent(
               context: event.context,
-              destination: const DashboardView(),
+              destination: const JobSeekerView(),
             ));
           },
         );
       },
     );
 
-    // Event handler for navigation to the home screen
-    on<NavigateHomeScreenEvent>(
-      (event, emit) {
-        Navigator.pushReplacement(
-          event.context,
-          MaterialPageRoute(
-            builder: (context) => event.destination,
-          ),
-        );
-      },
-    );
-
-    on<NavigateRegisterScreenEvent>(
-      (event, emit) {
-        Navigator.push(
-          event.context,
-          MaterialPageRoute(
-            builder: (context) => BlocProvider.value(
-                value: _signupBloc, child: event.destination),
-          ),
-        );
-      },
-    );
+    // on<NavigateRegisterScreenEvent>(
+    //   (event, emit) {
+    //     Navigator.push(
+    //       event.context,
+    //       MaterialPageRoute(
+    //         builder: (context) => BlocProvider.value(
+    //             value: _signupBloc, child: event.destination),
+    //       ),
+    //     );
+    //   },
+    // );
   }
 }
 
