@@ -29,8 +29,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           MaterialPageRoute(
             builder: (context) => MultiBlocProvider(
               providers: [
-                // BlocProvider.value(value: getIt<CourseBloc>()),
-                // BlocProvider.value(value: getIt<BatchBloc>()),
                 BlocProvider.value(value: _signupBloc),
               ],
               child: event.destination,
@@ -76,7 +74,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           },
           (token) {
             emit(state.copyWith(isLoading: false, isSuccess: true));
-            // Show Snackbar for success
+
             showMySnackBar(
               context: event.context,
               message: "Login Successful",
@@ -91,18 +89,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         );
       },
     );
-
-    // on<NavigateRegisterScreenEvent>(
-    //   (event, emit) {
-    //     Navigator.push(
-    //       event.context,
-    //       MaterialPageRoute(
-    //         builder: (context) => BlocProvider.value(
-    //             value: _signupBloc, child: event.destination),
-    //       ),
-    //     );
-    //   },
-    // );
   }
 }
 
