@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:work_hive_mobile/features/user_data/presentation/view_model/bloc/job_seeker_bloc.dart';
@@ -112,9 +111,6 @@ class _JobSeekerViewState extends State<JobSeekerView> {
                             ? FileImage(_img!)
                             : const AssetImage('assets/images/profile.png')
                                 as ImageProvider,
-                        // backgroundImage:
-                        //     const AssetImage('assets/images/profile.png')
-                        //         as ImageProvider,
                       ),
                     ),
                   ),
@@ -155,42 +151,23 @@ class _JobSeekerViewState extends State<JobSeekerView> {
                               context.read<JobSeekerBloc>().state;
                           final imageName = registerState.imageName;
                           final prefs = await SharedPreferences.getInstance();
-                          String? token = prefs.getString('token');
 
-                          if (token != null) {
-                            print("Token fetched: $token");
+                          String? userId = prefs.getString('userId');
 
-                            // Decode the token and extract the id
-                            Map<String, dynamic> decodedToken =
-                                JwtDecoder.decode(token);
-                            print("Decoded Token: $decodedToken");
-
-                            // Extract the id from the token
-                            String? userId = decodedToken['id'];
-                            if (userId != null) {
-                              print("User ID: $userId");
-
-                              // Proceed with the JobSeekerBloc event, passing the userId as userId
-                              context.read<JobSeekerBloc>().add(
-                                    AddJobSeeker(
-                                      context: context,
-                                      bio: _bioController.text,
-                                      location: _locationController.text,
-                                      profilePicture: imageName,
-                                      skills: _skillsController.text
-                                          .split(',')
-                                          .map((e) => e.trim())
-                                          .toList(),
-                                      userId:
-                                          userId, // Send the decoded id as userId for JobSeeker
-                                    ),
-                                  );
-                            } else {
-                              print("No user ID found in the token");
-                            }
-                          } else {
-                            print("No token found");
-                          }
+                          context.read<JobSeekerBloc>().add(
+                                AddJobSeeker(
+                                  context: context,
+                                  bio: _bioController.text,
+                                  location: _locationController.text,
+                                  profilePicture: imageName,
+                                  skills: _skillsController.text
+                                      .split(',')
+                                      .map((e) => e.trim())
+                                      .toList(),
+                                  userId:
+                                      userId, // Send the userId from SharedPreferences
+                                ),
+                              );
                         }
                       },
                       child: const Text('Add info'),
