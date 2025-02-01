@@ -1,9 +1,11 @@
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:work_hive_mobile/core/common/components/snackbar.dart';
+import 'package:work_hive_mobile/features/home/presentation/view/home_view.dart';
+import 'package:work_hive_mobile/features/home/presentation/view_model/home_cubit.dart';
 import 'package:work_hive_mobile/features/user_data/domain/use_case/add_jobseeker_usecase.dart';
 import 'package:work_hive_mobile/features/user_data/domain/use_case/upload_profile_picture.dart';
 
@@ -11,17 +13,33 @@ part 'job_seeker_event.dart';
 part 'job_seeker_state.dart';
 
 class JobSeekerBloc extends Bloc<JobSeekerEvent, JobSeekerState> {
+  final HomeCubit _homeCubit;
   final AddJobseekerUsecase _addJobseekerUsecase;
   final UploadImageUsecase _uploadImageUsecase;
 
   JobSeekerBloc({
     required AddJobseekerUsecase addJobseekerUsecase,
     required UploadImageUsecase uploadImageUsecase,
+    required HomeCubit homeCubit,
   })  : _addJobseekerUsecase = addJobseekerUsecase,
         _uploadImageUsecase = uploadImageUsecase,
+        _homeCubit = homeCubit,
         super(const JobSeekerState.initial()) {
     on<UploadImage>(_onLoadImage);
     on<AddJobSeeker>(_onAddJobseekerEvent);
+    on<NavigateDashEvent>(
+      (event, emit) {
+        Navigator.pushReplacement(
+          event.context,
+          MaterialPageRoute(
+            builder: (context) => BlocProvider.value(
+              value: _homeCubit,
+              child: event.destination,
+            ),
+          ),
+        );
+      },
+    );
   }
 
   void _onAddJobseekerEvent(
@@ -47,8 +65,12 @@ class JobSeekerBloc extends Bloc<JobSeekerEvent, JobSeekerState> {
       },
       (r) {
         emit(state.copyWith(isLoading: false, isSuccess: true));
-        showMySnackBar(
-            context: event.context, message: "Registration Successful");
+        showMySnackBar(context: event.context, message: "Saved Successfully");
+
+        add(NavigateDashEvent(
+          context: event.context,
+          destination: const HomeView(),
+        ));
       },
     );
   }
