@@ -22,7 +22,7 @@ class JobSeekerRemoteDataSource implements IJobSeekerDataSource {
         },
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         return;
       } else {
         throw Exception(response.statusMessage);
@@ -36,7 +36,6 @@ class JobSeekerRemoteDataSource implements IJobSeekerDataSource {
 
   @override
   Future<JobSeekerEntity> getUserData() {
-    // TODO: implement getUserData
     throw UnimplementedError();
   }
 
