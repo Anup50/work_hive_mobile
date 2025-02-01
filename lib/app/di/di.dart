@@ -149,6 +149,7 @@ _initJobSeekerDependencies() {
     () => JobSeekerBloc(
       addJobseekerUsecase: getIt<AddJobseekerUsecase>(),
       uploadImageUsecase: getIt<UploadImageUsecase>(),
+      homeCubit: getIt<HomeCubit>(),
     ),
   );
 }
