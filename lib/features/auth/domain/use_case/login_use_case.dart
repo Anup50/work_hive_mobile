@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:work_hive_mobile/app/shared_prefs/token_shared_prefs.dart';
 import 'package:work_hive_mobile/app/usecase/usecase.dart';
 import 'package:work_hive_mobile/core/error/failure.dart';
@@ -38,6 +39,15 @@ class LoginUseCase implements UsecaseWithParams<String, LoginParams> {
           tokenSharedPrefs.getToken().then((value) {
             print(value);
           });
+          Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+          String? userId = decodedToken['id'];
+
+          if (userId != null) {
+            tokenSharedPrefs.saveUserId(userId);
+            print("User ID saved: $userId");
+          } else {
+            print("User ID not found in token!");
+          }
           return Right(token);
         },
       );
