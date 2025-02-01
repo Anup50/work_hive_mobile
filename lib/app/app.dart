@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:work_hive_mobile/core/app_theme/app_theme.dart';
-import 'package:work_hive_mobile/view/onboard_screen_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:work_hive_mobile/app/di/di.dart';
+import 'package:work_hive_mobile/features/onboarding/presentation/view/onboard_screen_view.dart';
+import 'package:work_hive_mobile/features/onboarding/presentation/view_model/onboard_cubit.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -8,9 +10,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const OnboardingScreen(),
-      theme: getApplicationTheme(),
+      home: BlocProvider(
+        create: (context) =>
+            getIt<OnboardingCubit>(), // Use GetIt to get the instance
+        child: const OnboardingScreen(), // Your onboarding screen
+      ),
     );
   }
 }
