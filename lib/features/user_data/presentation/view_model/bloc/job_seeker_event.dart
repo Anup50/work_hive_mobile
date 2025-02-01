@@ -15,6 +15,16 @@ class UploadImage extends JobSeekerEvent {
   });
 }
 
+class NavigateDashEvent extends JobSeekerEvent {
+  final BuildContext context;
+  final Widget destination;
+
+  const NavigateDashEvent({
+    required this.context,
+    required this.destination,
+  });
+}
+
 class AddJobSeeker extends JobSeekerEvent {
   final BuildContext context;
   final String? userId;
