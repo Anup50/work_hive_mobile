@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:work_hive_mobile/features/jobs/domain/entity/job_entty.dart';
+import 'package:work_hive_mobile/features/jobs/domain/entity/job_entity.dart';
 import 'package:work_hive_mobile/features/user_data/data/model/employer_api_model.dart';
 
 part 'job_api_model.g.dart';
