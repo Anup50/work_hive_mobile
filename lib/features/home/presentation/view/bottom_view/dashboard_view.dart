@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:work_hive_mobile/core/common/components/job_card.dart';
+import 'package:work_hive_mobile/features/jobs/presentation/view_model/job_bloc.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -128,21 +130,34 @@ class _DashboardViewState extends State<DashboardView> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
-                  const JobCard(
-                    jobTitle: "Job Title",
-                    companyName: "Company Name",
-                    jobLocation: "Job Location (Workplace type)",
-                  ),
-                  const JobCard(
-                    jobTitle: "Job Title",
-                    companyName: "Company Name",
-                    jobLocation: "Job Location (Workplace type)",
-                  ),
-                  const JobCard(
-                    jobTitle: "Job Title",
-                    companyName: "Company Name",
-                    jobLocation: "Job Location (Workplace type)",
-                  ),
+                  BlocBuilder<JobBloc, JobState>(
+                    builder: (context, state) {
+                      if (state.isLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (state.error.isNotEmpty) {
+                        return Center(child: Text("Error: ${state.error}"));
+                      } else if (state.jobs.isEmpty) {
+                        return const Center(
+                            child: Text('No recent job postings'));
+                      } else {
+                        return SizedBox(
+                          height: 300,
+                          child: ListView.builder(
+                            itemCount: state.jobs.length,
+                            itemBuilder: (context, index) {
+                              final job = state.jobs[index];
+                              return JobCard(
+                                jobTitle: job.title,
+                                companyName: job.employer.companyName,
+                                jobLocation: job.location,
+                                imagePath: job.employer.companyLogo,
+                              );
+                            },
+                          ),
+                        );
+                      }
+                    },
+                  )
                 ],
               ),
             ],
@@ -164,7 +179,6 @@ class CategoryChip extends StatelessWidget {
       padding: const EdgeInsets.only(right: 8.0),
       child: Chip(
         label: Text(label),
-        backgroundColor: Colors.blue[100],
       ),
     );
   }
