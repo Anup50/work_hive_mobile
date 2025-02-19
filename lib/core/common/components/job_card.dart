@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:work_hive_mobile/app/utils/image_url_util.dart';
 
 class JobCard extends StatefulWidget {
   const JobCard({
@@ -40,8 +41,9 @@ class _JobCardState extends State<JobCard> {
                 borderRadius: BorderRadius.circular(8),
                 image: widget.imagePath != null
                     ? DecorationImage(
-                        image: AssetImage(widget
-                            .imagePath!), // Use AssetImage or NetworkImage
+                        image: NetworkImage(
+                          getImageUrl(widget.imagePath),
+                        ),
                         fit: BoxFit.cover,
                       )
                     : null,
@@ -80,7 +82,7 @@ class _JobCardState extends State<JobCard> {
                 ],
               ),
             ),
-            // Bookmark Button
+
             IconButton(
               icon: Icon(
                 isBookmarked ? Icons.bookmark : Icons.bookmark_outline,
