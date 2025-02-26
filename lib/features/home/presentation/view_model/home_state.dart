@@ -1,6 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:work_hive_mobile/app/di/di.dart';
 import 'package:work_hive_mobile/features/home/presentation/view/bottom_view/dashboard_view.dart';
+import 'package:work_hive_mobile/features/jobs/presentation/view_model/job_bloc.dart';
 
 class HomeState extends Equatable {
   final int selectedIndex;
@@ -11,23 +14,22 @@ class HomeState extends Equatable {
     required this.views,
   });
 
-  // Initial state
   static HomeState initial() {
-    return const HomeState(
+    return HomeState(
       selectedIndex: 0,
       views: [
-        DashboardView(),
-
-        // BlocProvider(
-        //   create: (context) => getIt<CourseBloc>(),
-        //   child: CourseView(),
-        // ),
-
+        BlocProvider(
+          create: (context) => getIt<JobBloc>(),
+          child: const DashboardView(),
+        ),
+        const Center(
+          child: Text('Applications'), // Placeholder for Applications tab
+        ),
         // BlocProvider(
         //   create: (context) => getIt<BatchBloc>(),
         //   child: BatchView(),
         // ),
-        Center(
+        const Center(
           child: Text('Account'),
         ),
       ],

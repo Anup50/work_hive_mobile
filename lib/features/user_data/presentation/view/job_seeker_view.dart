@@ -120,12 +120,6 @@ class _JobSeekerViewState extends State<JobSeekerView> {
                     decoration: const InputDecoration(
                       labelText: 'Bio',
                     ),
-                    validator: ((value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter first name';
-                      }
-                      return null;
-                    }),
                   ),
                   _gap,
                   TextFormField(
@@ -165,7 +159,7 @@ class _JobSeekerViewState extends State<JobSeekerView> {
                                       .map((e) => e.trim())
                                       .toList(),
                                   userId:
-                                      userId, // Send the userId from SharedPreferences
+                                      userId, // Send userId from SharedPreferences
                                 ),
                               );
                         }

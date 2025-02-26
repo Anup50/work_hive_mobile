@@ -13,6 +13,11 @@ import 'package:work_hive_mobile/features/auth/domain/use_case/register_use_case
 import 'package:work_hive_mobile/features/auth/presentation/view_model/login/login_bloc.dart';
 import 'package:work_hive_mobile/features/auth/presentation/view_model/signup/signup_bloc.dart';
 import 'package:work_hive_mobile/features/home/presentation/view_model/home_cubit.dart';
+import 'package:work_hive_mobile/features/jobs/data/data_source/remote_data_source/job_remote_data_source.dart';
+import 'package:work_hive_mobile/features/jobs/data/repository/job_remote_repository.dart';
+import 'package:work_hive_mobile/features/jobs/domain/use_case/get_all_jobs_usecase.dart';
+import 'package:work_hive_mobile/features/jobs/domain/use_case/get_job_by_id_usecase.dart';
+import 'package:work_hive_mobile/features/jobs/presentation/view_model/job_bloc.dart';
 import 'package:work_hive_mobile/features/onboarding/presentation/view_model/onboard_cubit.dart';
 import 'package:work_hive_mobile/features/user_data/data/data_soure/remote_data_source/job_seeker_remote_data_source.dart';
 import 'package:work_hive_mobile/features/user_data/data/repository/job_seeker_remote_repository/job_seeker_remote_repository.dart';
@@ -31,6 +36,7 @@ Future<void> initDependencies() async {
   await _initRegisterDependencies();
   await _initJobSeekerDependencies();
   await _initOnboardingDependencies();
+  await _initJobDependencies();
 }
 
 Future<void> _initSharedPreferences() async {
@@ -116,6 +122,44 @@ _initLoginDependencies() async {
       loginUseCase: getIt<LoginUseCase>(),
       signupBloc: getIt<SignupBloc>(),
       jobSeekerBloc: getIt<JobSeekerBloc>(),
+    ),
+  );
+}
+
+_initJobDependencies() {
+  // =========================== Data Source ===========================
+
+  getIt.registerFactory<JobRemoteDataSource>(
+      () => JobRemoteDataSource(getIt<Dio>()));
+
+  // =========================== Repository ===========================
+
+  getIt.registerLazySingleton<JobRemoteRepository>(
+    () => JobRemoteRepository(
+      getIt<JobRemoteDataSource>(),
+    ),
+  );
+
+  // Usecases
+
+  getIt.registerLazySingleton<GetAllJobsUsecase>(
+    () => GetAllJobsUsecase(
+      jobRepository: getIt<JobRemoteRepository>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<GetJobByIdUsecase>(
+    () => GetJobByIdUsecase(
+      jobRepository: getIt<JobRemoteRepository>(),
+    ),
+  );
+
+  // Bloc
+
+  getIt.registerFactory<JobBloc>(
+    () => JobBloc(
+      getAllJobsUsecase: getIt<GetAllJobsUsecase>(),
+      getJobByIdUsecase: getIt<GetJobByIdUsecase>(),
     ),
   );
 }
