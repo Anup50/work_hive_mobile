@@ -73,7 +73,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             );
           },
           (token) {
-            emit(state.copyWith(isLoading: false, isSuccess: true));
+            emit(state.copyWith(
+              isLoading: false, isSuccess: true,
+              authStatus: AuthStatus.authenticated, //Set authentication status
+            ));
 
             showMySnackBar(
               context: event.context,
