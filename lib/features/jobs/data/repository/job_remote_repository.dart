@@ -40,4 +40,15 @@ class JobRemoteRepository implements IJobRepository {
       return Left(ApiFailure(message: e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, List<JobEntity>>> getRecommended(
+      String jobSekerId) async {
+    try {
+      final jobs = await _jobRemoteDataSource.getRecommended(jobSekerId);
+      return Right(jobs);
+    } catch (e) {
+      return Left(ApiFailure(message: e.toString()));
+    }
+  }
 }

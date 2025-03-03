@@ -22,6 +22,7 @@ import 'package:work_hive_mobile/features/jobs/data/data_source/remote_data_sour
 import 'package:work_hive_mobile/features/jobs/data/repository/job_remote_repository.dart';
 import 'package:work_hive_mobile/features/jobs/domain/use_case/get_all_jobs_usecase.dart';
 import 'package:work_hive_mobile/features/jobs/domain/use_case/get_job_by_id_usecase.dart';
+import 'package:work_hive_mobile/features/jobs/domain/use_case/get_recommended_usecase.dart';
 import 'package:work_hive_mobile/features/jobs/presentation/view_model/job_bloc.dart';
 import 'package:work_hive_mobile/features/onboarding/presentation/view_model/onboard_cubit.dart';
 import 'package:work_hive_mobile/features/user_data/data/data_soure/remote_data_source/job_seeker_remote_data_source.dart';
@@ -182,8 +183,8 @@ _initLoginDependencies() async {
 _initJobDependencies() {
   // =========================== Data Source ===========================
 
-  getIt.registerFactory<JobRemoteDataSource>(
-      () => JobRemoteDataSource(getIt<Dio>()));
+  getIt.registerFactory<JobRemoteDataSource>(() => JobRemoteDataSource(
+      dio: getIt<Dio>(), tokenSharedPrefs: getIt<TokenSharedPrefs>()));
 
   // =========================== Repository ===========================
 
@@ -200,6 +201,11 @@ _initJobDependencies() {
       jobRepository: getIt<JobRemoteRepository>(),
     ),
   );
+  getIt.registerLazySingleton<GetRecommendedUsecase>(
+    () => GetRecommendedUsecase(
+      jobRepository: getIt<JobRemoteRepository>(),
+    ),
+  );
 
   getIt.registerLazySingleton<GetJobByIdUsecase>(
     () => GetJobByIdUsecase(
@@ -213,6 +219,7 @@ _initJobDependencies() {
     () => JobBloc(
       getAllJobsUsecase: getIt<GetAllJobsUsecase>(),
       getJobByIdUsecase: getIt<GetJobByIdUsecase>(),
+      getRecommendedUsecase: getIt<GetRecommendedUsecase>(),
     ),
   );
 }

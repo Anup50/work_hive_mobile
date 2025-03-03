@@ -9,19 +9,24 @@ part of 'job_api_model.dart';
 JobApiModel _$JobApiModelFromJson(Map<String, dynamic> json) => JobApiModel(
       jobId: json['_id'] as String?,
       title: json['title'] as String,
-      description: json['description'] as String,
+      description: DescriptionApiModel.fromJson(
+          json['description'] as Map<String, dynamic>),
       location: json['location'] as String,
       employer:
           EmployerApiModel.fromJson(json['employer'] as Map<String, dynamic>),
       salary: json['salary'] as num?,
       jobType: json['jobType'] as String,
       experienceLevel: json['experienceLevel'] as String,
-      datePosted: DateTime.parse(json['datePosted'] as String),
-      deadline: DateTime.parse(json['deadline'] as String),
+      datePosted: json['datePosted'] == null
+          ? null
+          : DateTime.parse(json['datePosted'] as String),
+      deadline: json['deadline'] == null
+          ? null
+          : DateTime.parse(json['deadline'] as String),
       skillsRequired: (json['skillsRequired'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      isActive: json['isActive'] as bool,
+      isActive: json['isActive'] as bool?,
     );
 
 Map<String, dynamic> _$JobApiModelToJson(JobApiModel instance) =>
@@ -34,8 +39,8 @@ Map<String, dynamic> _$JobApiModelToJson(JobApiModel instance) =>
       'salary': instance.salary,
       'jobType': instance.jobType,
       'experienceLevel': instance.experienceLevel,
-      'datePosted': instance.datePosted.toIso8601String(),
-      'deadline': instance.deadline.toIso8601String(),
+      'datePosted': instance.datePosted?.toIso8601String(),
+      'deadline': instance.deadline?.toIso8601String(),
       'skillsRequired': instance.skillsRequired,
       'isActive': instance.isActive,
     };
