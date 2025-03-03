@@ -34,11 +34,13 @@ final getIt = GetIt.instance;
 
 Future<void> initDependencies() async {
   await _initHiveService();
-  await _initNetworkService();
-  await _initHiveBoxService();
-  await _initSyncDependencies();
   await _initApiService();
   await _initSharedPreferences();
+  await _initNetworkService();
+  await _initHiveBoxService();
+
+  await _initSyncDependencies();
+
   await _initHomeDependencies();
   await _initLoginDependencies();
   await _initRegisterDependencies();
@@ -52,28 +54,13 @@ Future<void> _initSharedPreferences() async {
   getIt.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 }
 
-_initApiService() {
-  getIt.registerLazySingleton<Dio>(
-    () => ApiService(Dio()).dio,
-  );
-}
-
-// _initNetworkService() {
-//   getIt.registerLazySingleton<InternetConnectionChecker>(
-//     () => InternetConnectionChecker.c(),
-//   );
-//   getIt.registerSingleton<NetworkInfo>(
-//     NetworkInfoImpl(getIt<InternetConnectionChecker>()),
-//   );
-// }
-
-Future<void> _initNetworkService() async {
+_initNetworkService() async {
   // Internet Connection Checker
   getIt.registerLazySingleton<InternetConnectionChecker>(
-    () => InternetConnectionChecker.createInstance(),
+    () => InternetConnectionChecker.createInstance(), // Changed here
   );
 
-  // Register NetworkInfo with the registered InternetConnectionChecker
+  // Register NetworkInfo
   getIt.registerSingleton<NetworkInfo>(
     NetworkInfoImpl(getIt<InternetConnectionChecker>()),
   );
@@ -85,6 +72,12 @@ _initHiveBoxService() {
 
 _initHiveService() {
   getIt.registerLazySingleton<HiveService>(() => HiveService());
+}
+
+_initApiService() {
+  getIt.registerLazySingleton<Dio>(
+    () => ApiService(Dio()).dio,
+  );
 }
 
 _initSyncDependencies() {
@@ -114,12 +107,25 @@ _initRegisterDependencies() {
 
   // =========================== Repository ===========================
   getIt.registerLazySingleton(
-    () => AuthLocalRepository(getIt<AuthLocalDataSource>()),
+    () => AuthLocalRepository(
+      getIt<AuthLocalDataSource>(),
+      getIt<NetworkInfo>(),
+      getIt<SyncService>(),
+      getIt<Dio>(),
+    ),
   );
   getIt.registerLazySingleton<AuthRemoteRepository>(
-    () => AuthRemoteRepository(getIt<AuthRemoteDataSource>()),
+    () => AuthRemoteRepository(
+      getIt<AuthRemoteDataSource>(),
+      // Added local datasource
+      getIt<NetworkInfo>(),
+      getIt<AuthLocalDataSource>(),
+    ),
   );
-
+  // getIt.registerLazySingleton<AuthRemoteRepository>(
+  //   () => AuthRemoteRepository(getIt<AuthRemoteDataSource>(),
+  //       getIt<NetworkInfo>(), getIt<AuthLocalDataSource>()),
+  // );
   // =========================== Usecases ===========================
 
   // getIt.registerLazySingleton<RegisterUseCase>(
