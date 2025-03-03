@@ -17,6 +17,8 @@ class ApiEndpoints {
 
   // ==================== JobSeeker Routes ====================
   static const String addJobseeker = "jobseeker/";
+  static const String getJobseekerId = "jobseeker/getJobSeekerId";
+
   static const String uploadProfilePicturee = "jobseeker/uploadImage";
 
   // ==================== Job Routes ====================
@@ -25,4 +27,6 @@ class ApiEndpoints {
   static const String getAllJob = "job/getall";
   static const String getRecommended = "job/recommended/";
   static const String getById = "job/";
+  // ==================== Employer Routes ====================
+  static const String getEmployerId = "employer/getEmployerId";
 }

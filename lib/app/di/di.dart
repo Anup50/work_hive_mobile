@@ -103,7 +103,9 @@ _initRegisterDependencies() {
   );
 
   getIt.registerLazySingleton<AuthRemoteDataSource>(
-    () => AuthRemoteDataSource(getIt<Dio>()),
+    () => AuthRemoteDataSource(
+      getIt<Dio>(),
+    ),
   );
 
   // =========================== Repository ===========================

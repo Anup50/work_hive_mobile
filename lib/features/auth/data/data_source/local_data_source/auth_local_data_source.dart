@@ -44,6 +44,7 @@
 // }
 import 'package:work_hive_mobile/core/network/hive_service.dart';
 import 'package:work_hive_mobile/features/auth/data/data_source/auth_data_source.dart';
+import 'package:work_hive_mobile/features/auth/data/model/login_response.dart';
 import 'package:work_hive_mobile/features/auth/domain/entity/auth_enity.dart';
 
 class AuthLocalDataSource implements IAuthDataSource {
@@ -58,14 +59,14 @@ class AuthLocalDataSource implements IAuthDataSource {
   }
 
   @override
-  Future<String> loginUser(String username, String password) async {
-    // Return a dummy token for testing
-    return Future.value("local_dummy_token");
-  }
-
-  @override
   Future<void> registerUser(AuthEntity user) async {
     // Return a dummy success for testing
     return Future.value();
+  }
+
+  @override
+  Future<LoginResponse> loginUser(String email, String password) {
+    // TODO: implement loginUser
+    throw UnimplementedError();
   }
 }
