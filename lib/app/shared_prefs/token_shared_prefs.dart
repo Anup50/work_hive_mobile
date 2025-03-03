@@ -2,6 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:work_hive_mobile/core/error/failure.dart';
 
+enum AuthStatus { authenticated, unauthenticated }
+
 class TokenSharedPrefs {
   final SharedPreferences _sharedPreferences;
 

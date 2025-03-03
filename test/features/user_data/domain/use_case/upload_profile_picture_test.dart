@@ -21,29 +21,29 @@ void main() {
   final file = File('path/to/file');
 
   test(
-      'should call the [JobSeekerRepo.uploadProfilePicture] and return success',
+      'should call [JobSeekerRepo.uploadProfilePicture] and return the uploaded image name',
       () async {
     // Arrange
-    const successMessage = 'Image uploaded successfully';
+    const uploadedImageName = 'profile_picture.png';
+
     when(() => repository.uploadProfilePicture(file))
-        .thenAnswer((_) async => const Right(successMessage));
+        .thenAnswer((_) async => const Right(uploadedImageName));
 
     // Act
     final result = await usecase(UploadImageParams(file: file));
 
     // Assert
-    expect(result, const Right(successMessage));
+    expect(result, const Right(uploadedImageName));
 
-    // Verify that the method was called once
+    // Verify that the repository method was called once
     verify(() => repository.uploadProfilePicture(file)).called(1);
-
-    // Verify no additional interactions with the repository
     verifyNoMoreInteractions(repository);
   });
 
   test('should return failure when upload fails', () async {
     // Arrange
-    const failure = ApiFailure(message: 'Upload failed');
+    const failureMessage = 'Upload failed';
+    const failure = ApiFailure(message: failureMessage);
     when(() => repository.uploadProfilePicture(file))
         .thenAnswer((_) async => const Left(failure));
 
@@ -55,8 +55,6 @@ void main() {
 
     // Verify that the method was called once
     verify(() => repository.uploadProfilePicture(file)).called(1);
-
-    // Verify no additional interactions with the repository
     verifyNoMoreInteractions(repository);
   });
 }

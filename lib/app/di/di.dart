@@ -1,8 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:work_hive_mobile/app/service/sync/sync.dart';
+import 'package:work_hive_mobile/app/service/sync/sync_bloc.dart';
 import 'package:work_hive_mobile/app/shared_prefs/token_shared_prefs.dart';
+import 'package:work_hive_mobile/core/common/internet_checker.dart';
 import 'package:work_hive_mobile/core/network/api_service.dart';
+import 'package:work_hive_mobile/core/network/hive_box.dart';
 import 'package:work_hive_mobile/core/network/hive_service.dart';
 import 'package:work_hive_mobile/features/auth/data/data_source/local_data_source/auth_local_data_source.dart';
 import 'package:work_hive_mobile/features/auth/data/data_source/remote_data_source/auth_remote_data_source.dart';
@@ -31,6 +36,11 @@ Future<void> initDependencies() async {
   await _initHiveService();
   await _initApiService();
   await _initSharedPreferences();
+  await _initNetworkService();
+  await _initHiveBoxService();
+
+  await _initSyncDependencies();
+
   await _initHomeDependencies();
   await _initLoginDependencies();
   await _initRegisterDependencies();
@@ -44,14 +54,44 @@ Future<void> _initSharedPreferences() async {
   getIt.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 }
 
+_initNetworkService() async {
+  // Internet Connection Checker
+  getIt.registerLazySingleton<InternetConnectionChecker>(
+    () => InternetConnectionChecker.createInstance(), // Changed here
+  );
+
+  // Register NetworkInfo
+  getIt.registerSingleton<NetworkInfo>(
+    NetworkInfoImpl(getIt<InternetConnectionChecker>()),
+  );
+}
+
+_initHiveBoxService() {
+  getIt.registerSingleton<HiveBoxManager>(HiveBoxManager());
+}
+
+_initHiveService() {
+  getIt.registerLazySingleton<HiveService>(() => HiveService());
+}
+
 _initApiService() {
   getIt.registerLazySingleton<Dio>(
     () => ApiService(Dio()).dio,
   );
 }
 
-_initHiveService() {
-  getIt.registerLazySingleton<HiveService>(() => HiveService());
+_initSyncDependencies() {
+  getIt.registerSingleton<SyncService>(
+    SyncService(
+      networkInfo: getIt<NetworkInfo>(),
+      hiveManager: getIt<HiveBoxManager>(),
+      dio: getIt<Dio>(),
+    ),
+  );
+  getIt.registerLazySingleton<SyncBloc>(() => SyncBloc(
+        syncService: getIt<SyncService>(),
+        networkInfo: getIt<NetworkInfo>(),
+      ));
 }
 
 _initRegisterDependencies() {
@@ -67,12 +107,25 @@ _initRegisterDependencies() {
 
   // =========================== Repository ===========================
   getIt.registerLazySingleton(
-    () => AuthLocalRepository(getIt<AuthLocalDataSource>()),
+    () => AuthLocalRepository(
+      getIt<AuthLocalDataSource>(),
+      getIt<NetworkInfo>(),
+      getIt<SyncService>(),
+      getIt<Dio>(),
+    ),
   );
   getIt.registerLazySingleton<AuthRemoteRepository>(
-    () => AuthRemoteRepository(getIt<AuthRemoteDataSource>()),
+    () => AuthRemoteRepository(
+      getIt<AuthRemoteDataSource>(),
+      // Added local datasource
+      getIt<NetworkInfo>(),
+      getIt<AuthLocalDataSource>(),
+    ),
   );
-
+  // getIt.registerLazySingleton<AuthRemoteRepository>(
+  //   () => AuthRemoteRepository(getIt<AuthRemoteDataSource>(),
+  //       getIt<NetworkInfo>(), getIt<AuthLocalDataSource>()),
+  // );
   // =========================== Usecases ===========================
 
   // getIt.registerLazySingleton<RegisterUseCase>(
