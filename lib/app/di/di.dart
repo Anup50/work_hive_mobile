@@ -41,13 +41,13 @@ Future<void> initDependencies() async {
   await _initHiveBoxService();
 
   await _initSyncDependencies();
+  await _initJobDependencies();
 
   await _initHomeDependencies();
   await _initLoginDependencies();
   await _initRegisterDependencies();
   await _initJobSeekerDependencies();
   await _initOnboardingDependencies();
-  await _initJobDependencies();
 }
 
 Future<void> _initSharedPreferences() async {
@@ -175,9 +175,10 @@ _initLoginDependencies() async {
   );
   getIt.registerFactory<LoginBloc>(
     () => LoginBloc(
-      loginUseCase: getIt<LoginUseCase>(),
       signupBloc: getIt<SignupBloc>(),
       jobSeekerBloc: getIt<JobSeekerBloc>(),
+      homeCubit: getIt<HomeCubit>(),
+      loginUseCase: getIt<LoginUseCase>(),
     ),
   );
 }

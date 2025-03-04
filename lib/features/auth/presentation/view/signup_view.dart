@@ -20,7 +20,7 @@ class _RegisterViewState extends State<RegisterView> {
   final _passwordController = TextEditingController(text: '');
   final _confirmPasswordController = TextEditingController(text: '');
   final Map<String, String> roleMap = {
-    'Job Seeker': '67c411ee481149437dae148a', // Example Role ID
+    'Job Seeker': '67c411ca481149437dae1486', // Example Role ID
     'Employer': '2', // Example Role ID
   };
   String _selectedRole = '676f9a7aa2d59fd9940cf2b3';
