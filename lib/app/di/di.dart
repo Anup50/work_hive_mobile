@@ -28,6 +28,8 @@ import 'package:work_hive_mobile/features/onboarding/presentation/view_model/onb
 import 'package:work_hive_mobile/features/user_data/data/data_soure/remote_data_source/job_seeker_remote_data_source.dart';
 import 'package:work_hive_mobile/features/user_data/data/repository/job_seeker_remote_repository/job_seeker_remote_repository.dart';
 import 'package:work_hive_mobile/features/user_data/domain/use_case/add_jobseeker_usecase.dart';
+import 'package:work_hive_mobile/features/user_data/domain/use_case/get_jobseeker_usecase.dart';
+import 'package:work_hive_mobile/features/user_data/domain/use_case/update_jobseeker_usecase.dart';
 import 'package:work_hive_mobile/features/user_data/domain/use_case/upload_profile_picture.dart';
 import 'package:work_hive_mobile/features/user_data/presentation/view_model/bloc/job_seeker_bloc.dart';
 
@@ -223,6 +225,7 @@ _initJobDependencies() {
       getAllJobsUsecase: getIt<GetAllJobsUsecase>(),
       getJobByIdUsecase: getIt<GetJobByIdUsecase>(),
       getRecommendedUsecase: getIt<GetRecommendedUsecase>(),
+      tokenSharedPrefs: getIt<TokenSharedPrefs>(),
     ),
   );
 }
@@ -230,7 +233,7 @@ _initJobDependencies() {
 _initJobSeekerDependencies() {
   // =========================== Data Source ===========================
   getIt.registerLazySingleton<JobSeekerRemoteDataSource>(
-    () => JobSeekerRemoteDataSource(getIt<Dio>()),
+    () => JobSeekerRemoteDataSource(getIt<Dio>(), getIt<TokenSharedPrefs>()),
   );
 
   // =========================== Repository ===========================
@@ -250,13 +253,26 @@ _initJobSeekerDependencies() {
       getIt<JobSeekerRemoteRepository>(),
     ),
   );
+  getIt.registerLazySingleton<GetJobseekerUsecase>(
+    () => GetJobseekerUsecase(
+      jobSeekerRepository: getIt<JobSeekerRemoteRepository>(),
+    ),
+  );
 
+  getIt.registerLazySingleton<UpdateJobseekerUsecase>(
+    () => UpdateJobseekerUsecase(
+      getIt<JobSeekerRemoteRepository>(),
+    ),
+  );
   // =========================== Bloc ===========================
   getIt.registerFactory<JobSeekerBloc>(
     () => JobSeekerBloc(
       addJobseekerUsecase: getIt<AddJobseekerUsecase>(),
       uploadImageUsecase: getIt<UploadImageUsecase>(),
+      getJobseekerUsecase: getIt<GetJobseekerUsecase>(),
+      updateJobSeekerUsecase: getIt<UpdateJobseekerUsecase>(),
       homeCubit: getIt<HomeCubit>(),
+      tokenSharedPrefs: getIt<TokenSharedPrefs>(),
     ),
   );
 }

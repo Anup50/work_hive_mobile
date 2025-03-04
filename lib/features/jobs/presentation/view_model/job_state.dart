@@ -8,9 +8,11 @@ class JobState extends Equatable {
   // Recommended
   final bool isLoadingRecommended;
   final List<JobEntity> recommendedJobs;
-
   final String recommendedError;
-
+  //GetById
+  final bool isLoadingJob;
+  final JobEntity? job;
+  final String jobError;
   const JobState({
     required this.isLoading,
     required this.jobs,
@@ -18,6 +20,9 @@ class JobState extends Equatable {
     required this.isLoadingRecommended,
     required this.recommendedJobs,
     required this.recommendedError,
+    required this.isLoadingJob,
+    this.job,
+    required this.jobError,
   });
 
   factory JobState.initial() {
@@ -28,6 +33,9 @@ class JobState extends Equatable {
       recommendedError: '',
       recommendedJobs: [],
       isLoadingRecommended: false,
+      isLoadingJob: false,
+      job: null,
+      jobError: '',
     );
   }
 
@@ -39,6 +47,10 @@ class JobState extends Equatable {
     bool? isLoadingRecommended,
     List<JobEntity>? recommendedJobs,
     String? recommendedError,
+    //get job
+    bool? isLoadingJob,
+    JobEntity? job,
+    String? jobError,
   }) {
     return JobState(
       isLoading: isLoading ?? this.isLoading,
@@ -48,16 +60,22 @@ class JobState extends Equatable {
       isLoadingRecommended: isLoadingRecommended ?? this.isLoadingRecommended,
       recommendedError: recommendedError ?? this.recommendedError,
       recommendedJobs: recommendedJobs ?? this.recommendedJobs,
+      isLoadingJob: isLoadingJob ?? this.isLoadingJob,
+      job: job ?? this.job,
+      jobError: jobError ?? this.jobError,
     );
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         jobs,
         isLoading,
         error,
         recommendedJobs,
         isLoadingRecommended,
         recommendedError,
+        isLoadingJob,
+        job,
+        jobError,
       ];
 }
