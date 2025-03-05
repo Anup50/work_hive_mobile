@@ -3,6 +3,7 @@ import 'package:work_hive_mobile/core/common/internet_checker.dart';
 import 'package:work_hive_mobile/core/error/failure.dart';
 import 'package:work_hive_mobile/features/auth/data/data_source/local_data_source/auth_local_data_source.dart';
 import 'package:work_hive_mobile/features/auth/data/data_source/remote_data_source/auth_remote_data_source.dart';
+import 'package:work_hive_mobile/features/auth/data/model/login_response.dart';
 import 'package:work_hive_mobile/features/auth/domain/entity/auth_enity.dart';
 import 'package:work_hive_mobile/features/auth/domain/repository/auth_repository.dart';
 
@@ -20,7 +21,7 @@ class AuthRemoteRepository implements IAuthRepository {
     throw UnimplementedError();
   }
 
-  @override
+  // @override
   // Future<Either<Failure, String>> loginUser(
   //     String email, String password) async {
   //   if (await _networkInfo.isConnected) {
@@ -35,27 +36,28 @@ class AuthRemoteRepository implements IAuthRepository {
   //     return const Left(NetworkFailure(message: "No internet connection"));
   //   }
   // }
-  Future<Either<Failure, String>> loginUser(
-      String email, String password) async {
-    if (await _networkInfo.isConnected) {
-      try {
-        final token = await _authRemoteDataSource.loginUser(email, password);
-        return Right(token);
-      } catch (e) {
-        // Remote failed, try local
-        return _attemptLocalLogin(email, password);
-      }
-    } else {
-      // No internet, try local
-      return _attemptLocalLogin(email, password);
-    }
-  }
+  // Future<Either<Failure, String>> loginUser(
+  //     String email, String password) async {
+  //   if (await _networkInfo.isConnected) {
+  //     try {
+  //       final token = await _authRemoteDataSource.loginUser(email, password);
+  //       return Right(token);
+  //     } catch (e) {
+  //       // Remote failed, try local
+  //       return _attemptLocalLogin(email, password);
+  //     }
+  //   } else {
+  //     // No internet, try local
+  //     return _attemptLocalLogin(email, password);
+  //   }
+  // }
 
-  Future<Either<Failure, String>> _attemptLocalLogin(
+  Future<Either<Failure, LoginResponse>> _attemptLocalLogin(
       String email, String password) async {
     try {
-      final token = await _authLocalDataSource.loginUser(email, password);
-      return Right(token);
+      final LoginResponse =
+          await _authLocalDataSource.loginUser(email, password);
+      return Right(LoginResponse);
     } catch (e) {
       return Left(CacheFailure(message: e.toString()));
     }
@@ -108,6 +110,25 @@ class AuthRemoteRepository implements IAuthRepository {
       return const Right(null);
     } catch (e) {
       return Left(CacheFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, LoginResponse>> loginUser(
+      String email, String password) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        // Attempt remote login
+        final loginResponse =
+            await _authRemoteDataSource.loginUser(email, password);
+
+        return Right(loginResponse);
+      } catch (e) {
+        return _attemptLocalLogin(email, password);
+      }
+    } else {
+      // No internet, try local
+      return _attemptLocalLogin(email, password);
     }
   }
 }

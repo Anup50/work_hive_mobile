@@ -22,11 +22,14 @@ import 'package:work_hive_mobile/features/jobs/data/data_source/remote_data_sour
 import 'package:work_hive_mobile/features/jobs/data/repository/job_remote_repository.dart';
 import 'package:work_hive_mobile/features/jobs/domain/use_case/get_all_jobs_usecase.dart';
 import 'package:work_hive_mobile/features/jobs/domain/use_case/get_job_by_id_usecase.dart';
+import 'package:work_hive_mobile/features/jobs/domain/use_case/get_recommended_usecase.dart';
 import 'package:work_hive_mobile/features/jobs/presentation/view_model/job_bloc.dart';
 import 'package:work_hive_mobile/features/onboarding/presentation/view_model/onboard_cubit.dart';
 import 'package:work_hive_mobile/features/user_data/data/data_soure/remote_data_source/job_seeker_remote_data_source.dart';
 import 'package:work_hive_mobile/features/user_data/data/repository/job_seeker_remote_repository/job_seeker_remote_repository.dart';
 import 'package:work_hive_mobile/features/user_data/domain/use_case/add_jobseeker_usecase.dart';
+import 'package:work_hive_mobile/features/user_data/domain/use_case/get_jobseeker_usecase.dart';
+import 'package:work_hive_mobile/features/user_data/domain/use_case/update_jobseeker_usecase.dart';
 import 'package:work_hive_mobile/features/user_data/domain/use_case/upload_profile_picture.dart';
 import 'package:work_hive_mobile/features/user_data/presentation/view_model/bloc/job_seeker_bloc.dart';
 
@@ -40,13 +43,13 @@ Future<void> initDependencies() async {
   await _initHiveBoxService();
 
   await _initSyncDependencies();
+  await _initJobDependencies();
 
   await _initHomeDependencies();
   await _initLoginDependencies();
   await _initRegisterDependencies();
   await _initJobSeekerDependencies();
   await _initOnboardingDependencies();
-  await _initJobDependencies();
 }
 
 Future<void> _initSharedPreferences() async {
@@ -102,7 +105,9 @@ _initRegisterDependencies() {
   );
 
   getIt.registerLazySingleton<AuthRemoteDataSource>(
-    () => AuthRemoteDataSource(getIt<Dio>()),
+    () => AuthRemoteDataSource(
+      getIt<Dio>(),
+    ),
   );
 
   // =========================== Repository ===========================
@@ -172,9 +177,10 @@ _initLoginDependencies() async {
   );
   getIt.registerFactory<LoginBloc>(
     () => LoginBloc(
-      loginUseCase: getIt<LoginUseCase>(),
       signupBloc: getIt<SignupBloc>(),
       jobSeekerBloc: getIt<JobSeekerBloc>(),
+      homeCubit: getIt<HomeCubit>(),
+      loginUseCase: getIt<LoginUseCase>(),
     ),
   );
 }
@@ -182,8 +188,8 @@ _initLoginDependencies() async {
 _initJobDependencies() {
   // =========================== Data Source ===========================
 
-  getIt.registerFactory<JobRemoteDataSource>(
-      () => JobRemoteDataSource(getIt<Dio>()));
+  getIt.registerFactory<JobRemoteDataSource>(() => JobRemoteDataSource(
+      dio: getIt<Dio>(), tokenSharedPrefs: getIt<TokenSharedPrefs>()));
 
   // =========================== Repository ===========================
 
@@ -200,6 +206,11 @@ _initJobDependencies() {
       jobRepository: getIt<JobRemoteRepository>(),
     ),
   );
+  getIt.registerLazySingleton<GetRecommendedUsecase>(
+    () => GetRecommendedUsecase(
+      jobRepository: getIt<JobRemoteRepository>(),
+    ),
+  );
 
   getIt.registerLazySingleton<GetJobByIdUsecase>(
     () => GetJobByIdUsecase(
@@ -213,6 +224,8 @@ _initJobDependencies() {
     () => JobBloc(
       getAllJobsUsecase: getIt<GetAllJobsUsecase>(),
       getJobByIdUsecase: getIt<GetJobByIdUsecase>(),
+      getRecommendedUsecase: getIt<GetRecommendedUsecase>(),
+      tokenSharedPrefs: getIt<TokenSharedPrefs>(),
     ),
   );
 }
@@ -220,7 +233,7 @@ _initJobDependencies() {
 _initJobSeekerDependencies() {
   // =========================== Data Source ===========================
   getIt.registerLazySingleton<JobSeekerRemoteDataSource>(
-    () => JobSeekerRemoteDataSource(getIt<Dio>()),
+    () => JobSeekerRemoteDataSource(getIt<Dio>(), getIt<TokenSharedPrefs>()),
   );
 
   // =========================== Repository ===========================
@@ -240,13 +253,26 @@ _initJobSeekerDependencies() {
       getIt<JobSeekerRemoteRepository>(),
     ),
   );
+  getIt.registerLazySingleton<GetJobseekerUsecase>(
+    () => GetJobseekerUsecase(
+      jobSeekerRepository: getIt<JobSeekerRemoteRepository>(),
+    ),
+  );
 
+  getIt.registerLazySingleton<UpdateJobseekerUsecase>(
+    () => UpdateJobseekerUsecase(
+      getIt<JobSeekerRemoteRepository>(),
+    ),
+  );
   // =========================== Bloc ===========================
   getIt.registerFactory<JobSeekerBloc>(
     () => JobSeekerBloc(
       addJobseekerUsecase: getIt<AddJobseekerUsecase>(),
       uploadImageUsecase: getIt<UploadImageUsecase>(),
+      getJobseekerUsecase: getIt<GetJobseekerUsecase>(),
+      updateJobSeekerUsecase: getIt<UpdateJobseekerUsecase>(),
       homeCubit: getIt<HomeCubit>(),
+      tokenSharedPrefs: getIt<TokenSharedPrefs>(),
     ),
   );
 }

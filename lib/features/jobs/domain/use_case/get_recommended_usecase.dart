@@ -5,24 +5,25 @@ import 'package:work_hive_mobile/core/error/failure.dart';
 import 'package:work_hive_mobile/features/jobs/domain/entity/job_entity.dart';
 import 'package:work_hive_mobile/features/jobs/domain/repository/job_repository.dart';
 
-class GetJobByIdParams extends Equatable {
-  final String id;
+class GetRecommendedParams extends Equatable {
+  final String jobSeekerId;
 
-  const GetJobByIdParams({required this.id});
+  const GetRecommendedParams({required this.jobSeekerId});
 
-  const GetJobByIdParams.empty() : id = '_empty.string';
+  const GetRecommendedParams.empty() : jobSeekerId = '_empty.string';
   @override
   List<Object?> get props => [id];
 }
 
-class GetJobByIdUsecase implements UsecaseWithParams<void, GetJobByIdParams> {
+class GetRecommendedUsecase
+    implements UsecaseWithParams<List<JobEntity>, GetRecommendedParams> {
   final IJobRepository _jobRepository;
 
-  GetJobByIdUsecase({required IJobRepository jobRepository})
+  GetRecommendedUsecase({required IJobRepository jobRepository})
       : _jobRepository = jobRepository;
 
   @override
-  Future<Either<Failure, JobEntity>> call(GetJobByIdParams params) {
-    return _jobRepository.getJob(params.id);
+  Future<Either<Failure, List<JobEntity>>> call(params) {
+    return _jobRepository.getRecommended(params.jobSeekerId);
   }
 }

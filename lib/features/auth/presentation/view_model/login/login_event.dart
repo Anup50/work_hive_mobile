@@ -27,6 +27,16 @@ class NavigateHomeScreenEvent extends LoginEvent {
   });
 }
 
+class NavigateJobProfileEvent extends LoginEvent {
+  final BuildContext context;
+  final Widget destination;
+
+  const NavigateJobProfileEvent({
+    required this.context,
+    required this.destination,
+  });
+}
+
 class LoginUserEvent extends LoginEvent {
   final BuildContext context;
   final String email;

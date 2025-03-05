@@ -26,3 +26,12 @@ class GetJob extends JobEvent {
   @override
   List<Object> get props => [id];
 }
+
+class GetRecommended extends JobEvent {
+  final String jobSeekerId;
+
+  const GetRecommended({required this.jobSeekerId});
+
+  @override
+  List<Object> get props => [jobSeekerId];
+}

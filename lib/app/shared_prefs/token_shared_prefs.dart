@@ -44,4 +44,45 @@ class TokenSharedPrefs {
       return Left(SharedPrefsFailure(message: e.toString()));
     }
   }
+
+  Future<Either<Failure, void>> saveRole(String role) async {
+    try {
+      await _sharedPreferences.setString('userRole', role);
+      return const Right(null);
+    } catch (e) {
+      return Left(SharedPrefsFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<Failure, String?>> getRole() async {
+    try {
+      final role = _sharedPreferences.getString('userRole');
+      return Right(role ?? '');
+    } catch (e) {
+      return Left(SharedPrefsFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<Failure, void>> saveJobSeekerId(String? jobSeekerId) async {
+    try {
+      if (jobSeekerId?.isNotEmpty == true) {
+        await _sharedPreferences.setString('jobSeekerId', jobSeekerId!);
+      } else {
+        await _sharedPreferences
+            .remove('jobSeekerId'); // Remove if jobSeekerId is empty
+      }
+      return const Right(null);
+    } catch (e) {
+      return Left(SharedPrefsFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<Failure, String?>> getJobSeekerId() async {
+    try {
+      final jobSeekerId = _sharedPreferences.getString('jobSeekerId');
+      return Right(jobSeekerId);
+    } catch (e) {
+      return Left(SharedPrefsFailure(message: e.toString()));
+    }
+  }
 }
