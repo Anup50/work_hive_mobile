@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:work_hive_mobile/app/di/di.dart';
 import 'package:work_hive_mobile/app/shared_prefs/token_shared_prefs.dart';
@@ -24,6 +25,12 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     _loadProfileData();
+
+    accelerometerEventStream().listen((AccelerometerEvent event) {
+      if (event.x.abs() > 12 || event.y.abs() > 12 || event.z.abs() > 12) {
+        _onShakeLogout(); // Call logout function
+      }
+    });
   }
 
   Future<void> _loadProfileData() async {
@@ -92,7 +99,6 @@ class _ProfilePageState extends State<ProfilePage> {
       final prefs = await SharedPreferences.getInstance();
       String? userId = prefs.getString('userId');
 
-      // Retrieve job seeker ID using fold
       String? jobSeekerId = await TokenSharedPrefs(prefs).getJobSeekerId().then(
             (either) => either.fold(
               (failure) {
@@ -104,7 +110,6 @@ class _ProfilePageState extends State<ProfilePage> {
           );
 
       if (jobSeekerId != null) {
-        // Create a JobSeekerEntity object
         final jobSeekerEntity = JobSeekerEntity(
           bio: _bioController.text,
           skills:
@@ -114,7 +119,6 @@ class _ProfilePageState extends State<ProfilePage> {
           location: _locationController.text,
         );
 
-        // Pass the JobSeekerEntity to the UpdateJobSeekerEvent
         context.read<JobSeekerBloc>().add(UpdateJobSeekerEvent(
               id: jobSeekerId,
               jobSeeker: jobSeekerEntity,
@@ -141,6 +145,19 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
     debugPrint('User logged out');
+  }
+
+  void _onShakeLogout() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => BlocProvider.value(
+          value: getIt<LoginBloc>(),
+          child: SignInPage(),
+        ),
+      ),
+    );
+    debugPrint('User logged out due to shake');
   }
 
   @override
