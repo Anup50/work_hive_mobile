@@ -46,3 +46,26 @@ class AddJobSeeker extends JobSeekerEvent {
     this.updatedAt,
   });
 }
+
+class LoadJobSeekerProfileEvent extends JobSeekerEvent {
+  final String id;
+
+  const LoadJobSeekerProfileEvent({required this.id});
+
+  @override
+  List<Object> get props => [id];
+}
+
+// Event to update the job seeker profile
+class UpdateJobSeekerEvent extends JobSeekerEvent {
+  final String id;
+  final JobSeekerEntity jobSeeker;
+
+  const UpdateJobSeekerEvent({
+    required this.id,
+    required this.jobSeeker,
+  });
+
+  @override
+  List<Object> get props => [id, jobSeeker];
+}

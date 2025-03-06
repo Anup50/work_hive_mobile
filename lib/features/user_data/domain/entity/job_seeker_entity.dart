@@ -1,34 +1,41 @@
 import 'package:equatable/equatable.dart';
 
 class JobSeekerEntity extends Equatable {
+  final String? id;
   final String? userId;
+  final String? userName;
   final String? profilePicture;
   final String? bio;
   final String? location;
   final List<String> skills;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
 
   const JobSeekerEntity({
+    this.id,
     this.userId,
+    this.userName,
     this.profilePicture,
     this.bio,
     this.location,
     this.skills = const [],
-    this.createdAt,
-    this.updatedAt,
   });
 
   const JobSeekerEntity.empty()
-      : userId = null,
+      : id = null,
+        userId = null,
+        userName = null,
         profilePicture = null,
         bio = null,
         location = null,
-        skills = const [],
-        createdAt = null,
-        updatedAt = null;
+        skills = const [];
 
   @override
-  List<Object?> get props =>
-      [userId, profilePicture, bio, location, skills, createdAt, updatedAt];
+  List<Object?> get props => [
+        id,
+        userId,
+        userName,
+        profilePicture,
+        bio,
+        location,
+        skills,
+      ];
 }

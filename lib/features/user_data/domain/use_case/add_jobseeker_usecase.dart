@@ -49,9 +49,7 @@ class AddJobseekerUsecase
       bio: params.bio,
       skills: params.skills,
       profilePicture: params.profilePicture,
-      createdAt: params.createdAt,
       location: params.location,
-      updatedAt: params.updatedAt,
       userId: params.userId,
     );
     return repository.addJobSeekerData(jobseekerEntity);

@@ -10,6 +10,7 @@ JobSeekerApiModel _$JobSeekerApiModelFromJson(Map<String, dynamic> json) =>
     JobSeekerApiModel(
       id: json['_id'] as String?,
       userId: json['userId'] as String?,
+      userName: json['userName'] as String?,
       profilePicture: json['profilePicture'] as String?,
       bio: json['bio'] as String?,
       location: json['location'] as String?,
@@ -17,22 +18,15 @@ JobSeekerApiModel _$JobSeekerApiModelFromJson(Map<String, dynamic> json) =>
               ?.map((e) => e as String)
               .toList() ??
           const [],
-      createdAt: json['createdAt'] == null
-          ? null
-          : DateTime.parse(json['createdAt'] as String),
-      updatedAt: json['updatedAt'] == null
-          ? null
-          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$JobSeekerApiModelToJson(JobSeekerApiModel instance) =>
     <String, dynamic>{
       '_id': instance.id,
       'userId': instance.userId,
+      'userName': instance.userName,
       'profilePicture': instance.profilePicture,
       'bio': instance.bio,
       'location': instance.location,
       'skills': instance.skills,
-      'createdAt': instance.createdAt?.toIso8601String(),
-      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
