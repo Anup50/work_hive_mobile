@@ -21,7 +21,6 @@ class JobApiModel extends Equatable {
   final DateTime? datePosted;
   final DateTime? deadline;
   final List<String> skillsRequired;
-  final bool? isActive;
 
   const JobApiModel({
     required this.jobId,
@@ -35,7 +34,6 @@ class JobApiModel extends Equatable {
     this.datePosted,
     this.deadline,
     required this.skillsRequired,
-    this.isActive,
   });
 
   factory JobApiModel.fromJson(Map<String, dynamic> json) =>
@@ -56,7 +54,6 @@ class JobApiModel extends Equatable {
       datePosted: datePosted,
       deadline: deadline,
       skillsRequired: skillsRequired,
-      isActive: isActive,
     );
   }
 
@@ -73,7 +70,6 @@ class JobApiModel extends Equatable {
       experienceLevel: entity.experienceLevel,
       datePosted: entity.datePosted,
       deadline: entity.deadline,
-      isActive: entity.isActive,
     );
   }
 
@@ -94,7 +90,6 @@ class JobApiModel extends Equatable {
         datePosted,
         deadline,
         skillsRequired,
-        isActive,
       ];
 }
 
