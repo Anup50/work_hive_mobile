@@ -9,4 +9,6 @@ abstract interface class IJobDataSource {
   Future<void> createJob(JobEntity job);
 
   Future<void> deleteJob(String id);
+
+  Future<List<JobEntity>> searchJobs(String query);
 }

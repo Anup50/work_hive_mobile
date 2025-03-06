@@ -77,7 +77,6 @@ class JobEntity extends Equatable {
   final DateTime? datePosted;
   final DateTime? deadline;
   final List<String> skillsRequired;
-  final bool? isActive;
 
   const JobEntity({
     this.jobId,
@@ -91,7 +90,6 @@ class JobEntity extends Equatable {
     this.datePosted,
     this.deadline,
     required this.skillsRequired,
-    this.isActive,
   });
 
   // const JobEntity.empty()
@@ -124,6 +122,5 @@ class JobEntity extends Equatable {
         datePosted,
         deadline,
         skillsRequired,
-        isActive,
       ];
 }

@@ -8,4 +8,5 @@ abstract interface class IJobRepository {
   Future<Either<Failure, JobEntity>> getJob(String id);
   Future<Either<Failure, void>> createJob(JobEntity job);
   Future<Either<Failure, void>> deleteJob(String id);
+  Future<Either<Failure, List<JobEntity>>> searchJobs(String query);
 }
